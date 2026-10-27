@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { BigButton } from '../components/BigButton';
 import { SoundToggle } from '../components/SoundToggle';
@@ -17,6 +18,7 @@ export function SessionEnd() {
   const navigate = useNavigate();
   const location = useLocation();
   const words = useAppStore((s) => s.words);
+  const simpleMode = useAppStore((s) => s.settings.simpleMode);
   const state = (location.state ?? null) as SessionEndState | null;
 
   if (!state) {
@@ -41,23 +43,35 @@ export function SessionEnd() {
       </header>
 
       <div className="session-end__hero">
-        <p className="session-end__emoji" aria-hidden="true">
-          🎉
-        </p>
+        <motion.p
+          className="session-end__emoji"
+          aria-hidden="true"
+          animate={simpleMode ? {} : { y: [0, -10, 0], rotate: [0, -6, 6, 0] }}
+          transition={{ duration: 1.6, ease: 'easeOut' }}
+        >
+          🌟
+        </motion.p>
         <p className="session-end__score">
           {state.correct} doğru · {state.attempts} deneme
         </p>
+        <p className="session-end__cheer">Bahçen biraz daha büyüdü!</p>
       </div>
 
       {grown.length > 0 ? (
         <section className="session-end__grown" aria-label="Yeni bahçe öğeleri">
           <h2>Bahçende açılanlar</h2>
           <ul className="grown-list">
-            {grown.map((w) => (
-              <li key={w!.id} className="grown-list__item">
+            {grown.map((w, i) => (
+              <motion.li
+                key={w!.id}
+                className="grown-list__item"
+                initial={simpleMode ? false : { scale: 0.6, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: i * 0.08, duration: 0.3, ease: 'easeOut' }}
+              >
                 <span aria-hidden="true">{w!.emoji}</span>
                 <span>{w!.text}</span>
-              </li>
+              </motion.li>
             ))}
           </ul>
         </section>

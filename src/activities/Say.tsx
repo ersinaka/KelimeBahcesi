@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ActivityChrome } from '../components/ActivityChrome';
 import { BigButton } from '../components/BigButton';
+import { GrowthPop } from '../components/GrowthPop';
+import { PlayScene } from '../components/PlayScene';
 import { SoftPetals } from '../components/SoftPetals';
 import {
   fuzzyMatchWord,
@@ -32,6 +34,7 @@ export function Say() {
   const [heard, setHeard] = useState('');
   const [autoFailed, setAutoFailed] = useState(false);
   const [playbackUrl, setPlaybackUrl] = useState<string | null>(null);
+  const [showGrowth, setShowGrowth] = useState(false);
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -54,6 +57,7 @@ export function Say() {
     setHeard('');
     setAutoFailed(false);
     setListening(false);
+    setShowGrowth(false);
     recognitionRef.current?.abort();
     if (playbackUrl) {
       URL.revokeObjectURL(playbackUrl);
@@ -97,6 +101,12 @@ export function Say() {
     }
   };
 
+  const succeed = () => {
+    if (!current) return;
+    setShowGrowth(true);
+    markCorrect(current);
+  };
+
   const startListen = async () => {
     if (locked || listening) return;
     const Ctor = getSpeechRecognitionCtor();
@@ -122,7 +132,7 @@ export function Say() {
       stopRecordingOptional();
       setListening(false);
       if (current && fuzzyMatchWord(transcript, current.text)) {
-        markCorrect(current);
+        succeed();
       } else {
         setAutoFailed(true);
         markGentle();
@@ -178,80 +188,99 @@ export function Say() {
   }
 
   return (
-    <div className="screen activity-screen">
-      <ActivityChrome title="Söyle" index={session.index} total={session.total} hint={hint} />
+    <div className="screen activity-screen activity-screen--immersive">
+      <ActivityChrome
+        title="Söyle"
+        index={session.index}
+        total={session.total}
+        hint={hint || 'Bu ne? Söyle!'}
+        simple={settings.simpleMode}
+      />
 
-      <div className="say-stage">
-        <motion.div
-          className={`say-emoji ${feedback === 'correct' ? 'is-correct' : ''} ${feedback === 'gentle' ? 'is-gentle' : ''}`}
-          animate={
-            feedback === 'correct' && !settings.simpleMode
-              ? { scale: [1, 1.08, 1] }
-              : feedback === 'gentle' && !settings.simpleMode
-                ? { x: [0, -6, 6, 0] }
-                : {}
-          }
-          transition={{ duration: 0.35, ease: 'easeOut' }}
-        >
-          <span aria-hidden="true">{current.emoji}</span>
-          {feedback === 'correct' && !settings.simpleMode ? <SoftPetals active /> : null}
-        </motion.div>
-        <p className="say-prompt">Bu ne? Söyle!</p>
-        {heard ? (
-          <p className="ink-soft" aria-live="polite">
-            Duyulan: {heard}
-          </p>
-        ) : null}
-      </div>
-
-      <div className="say-controls">
-        {autoSupported ? (
-          <BigButton
-            icon={listening ? '⏹️' : '🎤'}
-            variant={listening ? 'accent' : 'primary'}
-            onClick={listening ? stopListen : startListen}
-            disabled={locked}
-            aria-label={listening ? 'Dinlemeyi durdur' : 'Mikrofonla söyle'}
+      <PlayScene categoryId={current.category}>
+        <div className="say-stage">
+          <motion.div
+            key={current.id}
+            className={`say-emoji ${feedback === 'correct' ? 'is-correct' : ''} ${feedback === 'gentle' ? 'is-gentle' : ''} ${listening ? 'is-listening' : ''}`}
+            initial={settings.simpleMode ? false : { scale: 0.85, opacity: 0 }}
+            animate={
+              feedback === 'correct' && !settings.simpleMode
+                ? { scale: [1, 1.1, 1], opacity: 1 }
+                : feedback === 'gentle' && !settings.simpleMode
+                  ? { x: [0, -6, 6, 0], scale: 1, opacity: 1 }
+                  : listening && !settings.simpleMode
+                    ? { scale: [1, 1.04, 1], opacity: 1 }
+                    : { scale: 1, opacity: 1 }
+            }
+            transition={{ duration: 0.35, ease: 'easeOut' }}
           >
-            {listening ? 'Durdur' : 'Söyle'}
-          </BigButton>
-        ) : null}
-
-        <div className="say-therapist" role="group" aria-label="Terapist onayı">
-          <BigButton
-            icon="✓"
-            variant="primary"
-            disabled={locked}
-            onClick={() => markCorrect(current)}
-            aria-label="Doğru"
-          >
-            Doğru
-          </BigButton>
-          <BigButton
-            icon="↻"
-            variant="surface"
-            disabled={locked}
-            onClick={() => {
-              setAutoFailed(true);
-              markGentle();
-            }}
-            aria-label="Tekrar dene"
-          >
-            Tekrar dene
-          </BigButton>
+            <span aria-hidden="true">{current.emoji}</span>
+            {feedback === 'correct' && !settings.simpleMode ? <SoftPetals active /> : null}
+          </motion.div>
+          <p className="say-prompt">Bu ne? Söyle!</p>
+          {heard ? (
+            <p className="say-heard" aria-live="polite">
+              Duyulan: <strong>{heard}</strong>
+            </p>
+          ) : null}
         </div>
-        <p className="ink-soft" style={{ textAlign: 'center', fontSize: '0.95rem' }}>
-          {!autoSupported
-            ? 'Konuşma tanıma yok — terapist onayını kullan.'
-            : autoFailed
-              ? 'Bir daha deneyelim — istersen terapist butonunu kullan.'
-              : 'Mikrofon veya terapist onayı ile devam et.'}
-        </p>
 
-        {playbackUrl && settings.playbackOwnVoice ? (
-          <audio controls src={playbackUrl} aria-label="Kendi sesini dinle" />
-        ) : null}
-      </div>
+        <div className="say-controls">
+          {autoSupported ? (
+            <button
+              type="button"
+              className={`mic-orb ${listening ? 'is-on' : ''}`}
+              onClick={listening ? stopListen : startListen}
+              disabled={locked}
+              aria-label={listening ? 'Dinlemeyi durdur' : 'Mikrofonla söyle'}
+            >
+              <span aria-hidden="true">{listening ? '⏹️' : '🎤'}</span>
+              <span>{listening ? 'Durdur' : 'Söyle'}</span>
+            </button>
+          ) : null}
+
+          <div className="say-therapist" role="group" aria-label="Terapist onayı">
+            <BigButton
+              icon="✓"
+              variant="primary"
+              disabled={locked}
+              onClick={succeed}
+              aria-label="Doğru"
+            >
+              Doğru
+            </BigButton>
+            <BigButton
+              icon="↻"
+              variant="surface"
+              disabled={locked}
+              onClick={() => {
+                setAutoFailed(true);
+                markGentle();
+              }}
+              aria-label="Tekrar dene"
+            >
+              Tekrar dene
+            </BigButton>
+          </div>
+          <p className="ink-soft" style={{ textAlign: 'center', fontSize: '0.95rem' }}>
+            {!autoSupported
+              ? 'Konuşma tanıma yok — terapist onayını kullan.'
+              : autoFailed
+                ? 'Bir daha deneyelim — istersen terapist butonunu kullan.'
+                : 'Mikrofon veya terapist onayı ile devam et.'}
+          </p>
+
+          {playbackUrl && settings.playbackOwnVoice ? (
+            <audio controls src={playbackUrl} aria-label="Kendi sesini dinle" />
+          ) : null}
+        </div>
+
+        <GrowthPop
+          active={showGrowth && feedback === 'correct'}
+          emoji={current.emoji}
+          simple={settings.simpleMode}
+        />
+      </PlayScene>
     </div>
   );
 }

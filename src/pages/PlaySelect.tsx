@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { CATEGORIES, type CategoryId } from '../data/categories';
 import { BigButton } from '../components/BigButton';
@@ -6,15 +7,22 @@ import { SoundToggle } from '../components/SoundToggle';
 import type { ActivityType } from '../store/useAppStore';
 import { selectActiveProfile, useAppStore } from '../store/useAppStore';
 
-const ACTIVITIES: Array<{ id: ActivityType; title: string; emoji: string; hint: string }> = [
-  { id: 'match', title: 'Eşleştir', emoji: '👂', hint: 'Duy ve seç' },
-  { id: 'categorize', title: 'Kategorile', emoji: '🧺', hint: 'Doğru sepete koy' },
-  { id: 'say', title: 'Söyle', emoji: '🗣️', hint: 'Kelimeyi söyle' },
+const ACTIVITIES: Array<{
+  id: ActivityType;
+  title: string;
+  emoji: string;
+  hint: string;
+  tone: string;
+}> = [
+  { id: 'match', title: 'Eşleştir', emoji: '👂', hint: 'Duy ve resmi bul', tone: '#CDE7F7' },
+  { id: 'categorize', title: 'Kategorile', emoji: '🧺', hint: 'Sepete yerleştir', tone: '#FFE4C8' },
+  { id: 'say', title: 'Söyle', emoji: '🗣️', hint: 'Sesini kullan', tone: '#D9F2E2' },
 ];
 
 export function PlaySelect() {
   const navigate = useNavigate();
   const profile = useAppStore(selectActiveProfile);
+  const simpleMode = useAppStore((s) => s.settings.simpleMode);
   const [activity, setActivity] = useState<ActivityType | null>(null);
   const [category, setCategory] = useState<CategoryId | 'all'>('all');
 
@@ -50,21 +58,26 @@ export function PlaySelect() {
           Etkinlik
         </h2>
         <ul className="choice-grid">
-          {ACTIVITIES.map((a) => (
+          {ACTIVITIES.map((a, i) => (
             <li key={a.id}>
-              <button
+              <motion.button
                 type="button"
                 className={`choice-card ${activity === a.id ? 'is-selected' : ''}`}
+                style={{ backgroundColor: a.tone }}
                 onClick={() => setActivity(a.id)}
                 aria-pressed={activity === a.id}
                 aria-label={`${a.title}: ${a.hint}`}
+                initial={simpleMode ? false : { opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.06, duration: 0.3, ease: 'easeOut' }}
+                whileTap={simpleMode ? undefined : { scale: 0.96 }}
               >
                 <span className="choice-card__emoji" aria-hidden="true">
                   {a.emoji}
                 </span>
                 <span className="choice-card__title">{a.title}</span>
                 <span className="choice-card__hint">{a.hint}</span>
-              </button>
+              </motion.button>
             </li>
           ))}
         </ul>

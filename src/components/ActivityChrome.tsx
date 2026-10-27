@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { SeedPath } from './SeedPath';
 import { SoundToggle } from './SoundToggle';
 
 interface ActivityChromeProps {
@@ -6,13 +7,20 @@ interface ActivityChromeProps {
   index: number;
   total: number;
   hint?: string;
+  simple?: boolean;
 }
 
-export function ActivityChrome({ title, index, total, hint }: ActivityChromeProps) {
+export function ActivityChrome({
+  title,
+  index,
+  total,
+  hint,
+  simple = false,
+}: ActivityChromeProps) {
   const navigate = useNavigate();
 
   return (
-    <>
+    <div className="activity-chrome">
       <header className="topbar">
         <button
           type="button"
@@ -24,15 +32,13 @@ export function ActivityChrome({ title, index, total, hint }: ActivityChromeProp
         </button>
         <div className="topbar__center">
           <h1 className="topbar__title">{title}</h1>
-          <p className="activity-progress" aria-live="polite">
-            {total > 0 ? `${index + 1} / ${total}` : '…'}
-          </p>
         </div>
         <SoundToggle />
       </header>
+      <SeedPath index={index} total={total} simple={simple} />
       <div className="activity-hint" aria-live="polite" role="status">
         {hint || '\u00A0'}
       </div>
-    </>
+    </div>
   );
 }

@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ActivityChrome } from '../components/ActivityChrome';
 import { BigButton } from '../components/BigButton';
+import { GrowthPop } from '../components/GrowthPop';
+import { ListenButton } from '../components/ListenButton';
+import { PlayScene } from '../components/PlayScene';
 import { SoftPetals } from '../components/SoftPetals';
 import { WordCard } from '../components/WordCard';
 import { pickDistractors, shuffle } from '../lib/activity';
@@ -13,11 +16,25 @@ import type { Word } from '../data/words';
 export function Match() {
   const navigate = useNavigate();
   const session = useActivitySession('match');
-  const { current, profile, words, hardMode, feedback, locked, hint, speakWord, markCorrect, markGentle, settings } =
-    session;
+  const {
+    current,
+    profile,
+    words,
+    hardMode,
+    feedback,
+    locked,
+    hint,
+    speakWord,
+    markCorrect,
+    markGentle,
+    settings,
+  } = session;
 
   const [dimmed, setDimmed] = useState<string[]>([]);
   const [shakeId, setShakeId] = useState<string | null>(null);
+  const [speaking, setSpeaking] = useState(false);
+  const [showGrowth, setShowGrowth] = useState(false);
+  const [roundKey, setRoundKey] = useState(0);
 
   const choices: Word[] = useMemo(() => {
     if (!current) return [];
@@ -28,9 +45,15 @@ export function Match() {
   useEffect(() => {
     setDimmed([]);
     setShakeId(null);
+    setShowGrowth(false);
+    setRoundKey((k) => k + 1);
     if (current) {
       prefetchSpeech([current.text], { enabled: settings.soundEnabled });
-      const t = window.setTimeout(() => speakWord(current.text), 250);
+      const t = window.setTimeout(() => {
+        setSpeaking(true);
+        speakWord(current.text);
+        window.setTimeout(() => setSpeaking(false), 1400);
+      }, 350);
       return () => window.clearTimeout(t);
     }
   }, [current, speakWord, settings.soundEnabled]);
@@ -59,6 +82,7 @@ export function Match() {
   const onPick = (word: Word) => {
     if (locked || dimmed.includes(word.id)) return;
     if (word.id === current.id) {
+      setShowGrowth(true);
       markCorrect(current);
     } else {
       setShakeId(word.id);
@@ -68,66 +92,95 @@ export function Match() {
     }
   };
 
+  const replay = () => {
+    setSpeaking(true);
+    speakWord(current.text);
+    window.setTimeout(() => setSpeaking(false), 1400);
+  };
+
   return (
-    <div className="screen activity-screen">
-      <ActivityChrome title="Eşleştir" index={session.index} total={session.total} hint={hint} />
+    <div className="screen activity-screen activity-screen--immersive">
+      <ActivityChrome
+        title="Eşleştir"
+        index={session.index}
+        total={session.total}
+        hint={hint || (speaking ? 'Dinle…' : 'Doğru resmi bul!')}
+        simple={settings.simpleMode}
+      />
 
-      <div className="match-prompt">
-        <button
-          type="button"
-          className="speak-btn"
-          onClick={() => speakWord(current.text)}
-          aria-label="Kelimeyi tekrar dinle"
-        >
-          <span aria-hidden="true">🔊</span>
-          <span>Dinle</span>
-        </button>
-        <p className="match-prompt__text ink-soft">Doğru resmi seç</p>
-      </div>
-
-      <div className="match-choices" role="group" aria-label="Seçenekler">
-        {choices.map((w) => {
-          const isTarget = w.id === current.id;
-          const cardState =
-            feedback === 'correct' && isTarget
-              ? 'correct'
-              : feedback === 'gentle' && shakeId === w.id
-                ? 'gentle'
-                : 'idle';
-          const card = (
-            <WordCard
-              emoji={w.emoji}
-              aria-label={`Seçenek ${w.emoji}`}
-              dimmed={dimmed.includes(w.id)}
-              state={cardState}
-              disabled={locked || dimmed.includes(w.id)}
-              onClick={() => onPick(w)}
+      <PlayScene categoryId={current.category}>
+        <div className="match-board">
+          <div className="match-board__listen">
+            <ListenButton
+              onClick={replay}
+              speaking={speaking || feedback === 'correct'}
+              label={speaking ? 'Konuşuyor' : 'Tekrar dinle'}
+              simple={settings.simpleMode}
             />
-          );
+          </div>
 
-          return (
+          <AnimatePresence mode="wait">
             <motion.div
-              key={w.id}
-              className="match-choices__item"
-              animate={
-                settings.simpleMode
-                  ? {}
-                  : shakeId === w.id
-                    ? { x: [0, -8, 8, -6, 6, 0] }
-                    : feedback === 'correct' && isTarget
-                      ? { scale: [1, 1.08, 1] }
-                      : { scale: 1, x: 0 }
-              }
-              transition={{ duration: 0.35, ease: 'easeOut' }}
+              key={roundKey}
+              className="match-choices"
+              role="group"
+              aria-label="Seçenekler"
+              initial={settings.simpleMode ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
             >
-              {card}
-              {feedback === 'correct' && isTarget && !settings.simpleMode ? (
-                <SoftPetals active />
-              ) : null}
+              {choices.map((w, i) => {
+                const isTarget = w.id === current.id;
+                const cardState =
+                  feedback === 'correct' && isTarget
+                    ? 'correct'
+                    : feedback === 'gentle' && shakeId === w.id
+                      ? 'gentle'
+                      : 'idle';
+
+                return (
+                  <motion.div
+                    key={w.id}
+                    className="match-choices__item"
+                    animate={
+                      settings.simpleMode
+                        ? {}
+                        : shakeId === w.id
+                          ? { x: [0, -10, 10, -6, 6, 0] }
+                          : feedback === 'correct' && isTarget
+                            ? { scale: [1, 1.1, 1], y: [0, -8, 0] }
+                            : feedback === 'correct' && !isTarget
+                              ? { opacity: 0.25, scale: 0.92 }
+                              : {}
+                    }
+                    transition={{ duration: 0.38, ease: 'easeOut' }}
+                  >
+                    <WordCard
+                      emoji={w.emoji}
+                      aria-label={`Seçenek ${w.emoji}`}
+                      dimmed={dimmed.includes(w.id)}
+                      state={cardState}
+                      index={i}
+                      simple={settings.simpleMode}
+                      disabled={locked || dimmed.includes(w.id)}
+                      onClick={() => onPick(w)}
+                    />
+                    {feedback === 'correct' && isTarget && !settings.simpleMode ? (
+                      <SoftPetals active />
+                    ) : null}
+                  </motion.div>
+                );
+              })}
             </motion.div>
-          );
-        })}
-      </div>
+          </AnimatePresence>
+
+          <GrowthPop
+            active={showGrowth && feedback === 'correct'}
+            emoji={current.emoji}
+            simple={settings.simpleMode}
+          />
+        </div>
+      </PlayScene>
     </div>
   );
 }

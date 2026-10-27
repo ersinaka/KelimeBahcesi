@@ -5,6 +5,7 @@ export const DEFAULT_VOICE = 'tr-TR-EmelNeural';
 
 const MAX_CHARS = 120;
 
+/** Yerel Vite middleware için. Production: api/tts.ts */
 export async function synthesizeTurkishMp3(
   rawText: string,
   options: { rate?: number; voice?: string } = {},
