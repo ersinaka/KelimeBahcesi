@@ -6,6 +6,7 @@ import { BigButton } from '../components/BigButton';
 import { SoftPetals } from '../components/SoftPetals';
 import { WordCard } from '../components/WordCard';
 import { pickDistractors, shuffle } from '../lib/activity';
+import { prefetchSpeech } from '../lib/speech';
 import { useActivitySession } from '../hooks/useActivitySession';
 import type { Word } from '../data/words';
 
@@ -28,10 +29,11 @@ export function Match() {
     setDimmed([]);
     setShakeId(null);
     if (current) {
+      prefetchSpeech([current.text], { enabled: settings.soundEnabled });
       const t = window.setTimeout(() => speakWord(current.text), 250);
       return () => window.clearTimeout(t);
     }
-  }, [current, speakWord]);
+  }, [current, speakWord, settings.soundEnabled]);
 
   if (!profile) {
     return (

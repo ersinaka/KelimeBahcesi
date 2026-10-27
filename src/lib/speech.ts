@@ -1,23 +1,138 @@
-/** Web Speech API sarmalayıcı — tr-TR, rate 0.85 */
+/** Türkçe seslendirme: önce ücretsiz Edge nöral TTS (/api/tts), yoksa Web Speech. */
 
-export function speak(
+let currentAudio: HTMLAudioElement | null = null;
+const urlCache = new Map<string, string>();
+const CACHE_LIMIT = 80;
+
+function cacheKey(text: string, rate: number): string {
+  return `${rate.toFixed(2)}|${text.trim()}`;
+}
+
+function rememberUrl(key: string, url: string): void {
+  if (urlCache.has(key)) {
+    URL.revokeObjectURL(urlCache.get(key)!);
+  }
+  urlCache.set(key, url);
+  while (urlCache.size > CACHE_LIMIT) {
+    const oldest = urlCache.keys().next().value;
+    if (!oldest) break;
+    const oldUrl = urlCache.get(oldest);
+    if (oldUrl) URL.revokeObjectURL(oldUrl);
+    urlCache.delete(oldest);
+  }
+}
+
+function pickTurkishVoice(): SpeechSynthesisVoice | null {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return null;
+  const voices = window.speechSynthesis.getVoices();
+  const tr = voices.filter((v) => v.lang.toLowerCase().startsWith('tr'));
+  if (tr.length === 0) return null;
+  const preferred = tr.find(
+    (v) =>
+      /emel|neural|natural|online|google|premium/i.test(v.name) ||
+      /neural|natural/i.test(v.voiceURI),
+  );
+  return preferred ?? tr[0] ?? null;
+}
+
+function speakBrowser(
   text: string,
-  options: { volume?: number; enabled?: boolean; rate?: number } = {},
+  options: { volume?: number; rate?: number },
 ): void {
   if (typeof window === 'undefined' || !window.speechSynthesis) return;
-  if (options.enabled === false) return;
-
   window.speechSynthesis.cancel();
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = 'tr-TR';
   utter.rate = options.rate ?? 0.85;
   utter.volume = Math.max(0, Math.min(1, options.volume ?? 0.6));
+  const voice = pickTurkishVoice();
+  if (voice) utter.voice = voice;
   window.speechSynthesis.speak(utter);
 }
 
+async function fetchNeuralUrl(text: string, rate: number): Promise<string> {
+  const key = cacheKey(text, rate);
+  const hit = urlCache.get(key);
+  if (hit) return hit;
+
+  const params = new URLSearchParams({
+    text,
+    rate: String(rate),
+    voice: 'tr-TR-EmelNeural',
+  });
+  const res = await fetch(`/api/tts?${params.toString()}`);
+  if (!res.ok) throw new Error(`TTS ${res.status}`);
+  const blob = await res.blob();
+  if (!blob.size) throw new Error('Boş ses');
+  const url = URL.createObjectURL(blob);
+  rememberUrl(key, url);
+  return url;
+}
+
+function playUrl(url: string, volume: number): Promise<void> {
+  return new Promise((resolve, reject) => {
+    stopSpeaking();
+    const audio = new Audio(url);
+    currentAudio = audio;
+    audio.volume = Math.max(0, Math.min(1, volume));
+    audio.onended = () => {
+      if (currentAudio === audio) currentAudio = null;
+      resolve();
+    };
+    audio.onerror = () => {
+      if (currentAudio === audio) currentAudio = null;
+      reject(new Error('Audio play failed'));
+    };
+    void audio.play().catch(reject);
+  });
+}
+
+export function speak(
+  text: string,
+  options: { volume?: number; enabled?: boolean; rate?: number } = {},
+): void {
+  if (options.enabled === false) return;
+  const trimmed = text.trim();
+  if (!trimmed) return;
+
+  const volume = options.volume ?? 0.6;
+  const rate = options.rate ?? 0.85;
+
+  void (async () => {
+    try {
+      const url = await fetchNeuralUrl(trimmed, rate);
+      await playUrl(url, volume);
+    } catch {
+      speakBrowser(trimmed, { volume, rate });
+    }
+  })();
+}
+
 export function stopSpeaking(): void {
-  if (typeof window === 'undefined' || !window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.src = '';
+    currentAudio = null;
+  }
+  if (typeof window !== 'undefined' && window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+  }
+}
+
+/** Sesleri önceden yükle (etkinlik kartları için). */
+export function prefetchSpeech(
+  texts: string[],
+  options: { rate?: number; enabled?: boolean } = {},
+): void {
+  if (options.enabled === false) return;
+  const rate = options.rate ?? 0.85;
+  for (const t of texts) {
+    const trimmed = t.trim();
+    if (!trimmed) continue;
+    void fetchNeuralUrl(trimmed, rate).catch(() => {
+      /* sessizce yoksay */
+    });
+  }
 }
 
 export type SpeechRecognitionLike = {
@@ -67,7 +182,6 @@ export function fuzzyMatchWord(heard: string, target: string): boolean {
   if (!a || !b) return false;
   if (a === b) return true;
   if (a.includes(b) || b.includes(a)) return true;
-  // tek karakter farkına izin (Levenshtein ≤ 1, kısa kelimelerde ≤ 0)
   if (Math.abs(a.length - b.length) > 1) return false;
   let diffs = 0;
   const max = Math.max(a.length, b.length);
