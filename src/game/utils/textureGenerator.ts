@@ -77,44 +77,44 @@ export class TextureGenerator {
     }
 
     private static createSkyAndHills(scene: Scene): void {
-        // Sky Background (1024x768)
-        const ctxSky = TextureGenerator.createCanvas(scene, 'farm_sky_bg', 1024, 768);
-        const gradSky = ctxSky.createLinearGradient(0, 0, 0, 768);
+        // Sky & Meadow Background for Mobile Portrait (540x960)
+        const ctxSky = TextureGenerator.createCanvas(scene, 'farm_sky_bg', 540, 960);
+        const gradSky = ctxSky.createLinearGradient(0, 0, 0, 960);
         gradSky.addColorStop(0, '#BBE8FF'); // soft sky blue
-        gradSky.addColorStop(0.45, '#E2F3FD'); // pale cream sky
-        gradSky.addColorStop(0.55, '#D8F3DC'); // transition to meadow
+        gradSky.addColorStop(0.35, '#E2F3FD'); // pale cream sky
+        gradSky.addColorStop(0.50, '#D8F3DC'); // transition to meadow
         gradSky.addColorStop(1, '#95D5B2'); // vibrant soft grass green
         ctxSky.fillStyle = gradSky;
-        ctxSky.fillRect(0, 0, 1024, 768);
+        ctxSky.fillRect(0, 0, 540, 960);
 
         // Distant gentle mountains / hills
         ctxSky.fillStyle = '#C7E9C0';
         ctxSky.beginPath();
-        ctxSky.moveTo(0, 420);
-        ctxSky.bezierCurveTo(240, 370, 400, 430, 600, 390);
-        ctxSky.bezierCurveTo(800, 350, 920, 410, 1024, 380);
-        ctxSky.lineTo(1024, 768);
-        ctxSky.lineTo(0, 768);
+        ctxSky.moveTo(0, 480);
+        ctxSky.bezierCurveTo(140, 440, 260, 500, 380, 460);
+        ctxSky.bezierCurveTo(460, 430, 500, 470, 540, 450);
+        ctxSky.lineTo(540, 960);
+        ctxSky.lineTo(0, 960);
         ctxSky.closePath();
         ctxSky.fill();
 
         // Main rolling green meadow hill
         ctxSky.fillStyle = '#74C69D';
         ctxSky.beginPath();
-        ctxSky.moveTo(0, 450);
-        ctxSky.bezierCurveTo(300, 410, 650, 470, 1024, 430);
-        ctxSky.lineTo(1024, 768);
-        ctxSky.lineTo(0, 768);
+        ctxSky.moveTo(0, 520);
+        ctxSky.bezierCurveTo(180, 480, 360, 540, 540, 500);
+        ctxSky.lineTo(540, 960);
+        ctxSky.lineTo(0, 960);
         ctxSky.closePath();
         ctxSky.fill();
 
         // Foreground soft meadow highlight
         ctxSky.fillStyle = '#52B788';
         ctxSky.beginPath();
-        ctxSky.moveTo(0, 560);
-        ctxSky.bezierCurveTo(350, 520, 700, 570, 1024, 530);
-        ctxSky.lineTo(1024, 768);
-        ctxSky.lineTo(0, 768);
+        ctxSky.moveTo(0, 640);
+        ctxSky.bezierCurveTo(200, 600, 400, 650, 540, 610);
+        ctxSky.lineTo(540, 960);
+        ctxSky.lineTo(0, 960);
         ctxSky.closePath();
         ctxSky.fill();
 

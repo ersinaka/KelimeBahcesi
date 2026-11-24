@@ -16,7 +16,7 @@ export interface TopBarConfig {
 
 export class TopBar extends GameObjects.Container {
     private starText: GameObjects.Text;
-    private profileText: GameObjects.Text;
+    private profileText?: GameObjects.Text;
     private holdProgressGfx?: GameObjects.Graphics;
     private holdTimer?: Phaser.Time.TimerEvent;
     private holdStartTime: number = 0;
@@ -28,26 +28,26 @@ export class TopBar extends GameObjects.Container {
     constructor(scene: Scene, config: TopBarConfig = {}) {
         super(scene, 0, 0);
 
-        // Header pastel pill banner background
+        // Header pastel pill banner background (Mobile Portrait: 520x56)
         const bg = scene.add.graphics();
-        bg.fillStyle(0xFFFFFF, 0.88);
-        bg.fillRoundedRect(16, 12, 992, 60, 20);
+        bg.fillStyle(0xFFFFFF, 0.92);
+        bg.fillRoundedRect(10, 10, 520, 56, 18);
         bg.lineStyle(2, 0xD8E2DC, 0.9);
-        bg.strokeRoundedRect(16, 12, 992, 60, 20);
+        bg.strokeRoundedRect(10, 10, 520, 56, 18);
         this.add(bg);
 
         // 1. Back button (optional)
         if (config.showBack) {
-            const backBtn = scene.add.container(52, 42);
-            const backCircle = scene.add.circle(0, 0, 22, 0xFFE5D9);
+            const backBtn = scene.add.container(36, 38);
+            const backCircle = scene.add.circle(0, 0, 18, 0xFFE5D9);
             backCircle.setStrokeStyle(2, 0xF3A683);
             const backText = scene.add.text(0, -1, '◀', {
                 fontFamily: 'Fredoka, Quicksand, sans-serif',
-                fontSize: '22px',
+                fontSize: '18px',
                 color: '#D4A373'
             }).setOrigin(0.5);
             backBtn.add([backCircle, backText]);
-            backBtn.setSize(44, 44);
+            backBtn.setSize(38, 38);
             backBtn.setInteractive({ useHandCursor: true });
             backBtn.on('pointerdown', () => {
                 soundManager.playTap();
@@ -57,52 +57,50 @@ export class TopBar extends GameObjects.Container {
         }
 
         // Title / Game Name
-        const titleText = scene.add.text(config.showBack ? 95 : 45, 42, 'Kelime Bahçesi 🌱', {
+        const titleX = config.showBack ? 62 : 24;
+        const titleText = scene.add.text(titleX, 38, 'Bahçe 🌱', {
             fontFamily: 'Fredoka, Quicksand, "Comic Sans MS", sans-serif',
-            fontSize: '24px',
-            color: '#2D6A4F'
+            fontSize: '17px',
+            color: '#2D6A4F',
+            fontStyle: 'bold'
         }).setOrigin(0, 0.5);
         this.add(titleText);
 
-        // User / Profile Badge
-        this.profileText = scene.add.text(320, 42, `👤 ${authState.getUsername()}`, {
-            fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '17px',
-            color: '#1E293B'
-        }).setOrigin(0, 0.5);
-        this.add(this.profileText);
-
         // Star Counter Badge
-        const starContainer = scene.add.container(530, 42);
+        const starX = config.showBack ? 165 : 145;
+        const starContainer = scene.add.container(starX, 38);
         const starBg = scene.add.graphics();
         starBg.fillStyle(0xFFF3B0, 0.95);
-        starBg.fillRoundedRect(-15, -18, 105, 36, 18);
+        starBg.fillRoundedRect(-12, -15, 68, 30, 15);
         starBg.lineStyle(2, 0xFFD166, 1);
-        starBg.strokeRoundedRect(-15, -18, 105, 36, 18);
-        const starIcon = scene.add.image(2, 0, 'star_gold').setScale(0.5);
-        this.starText = scene.add.text(28, 0, `${gameState.getActiveProfile().stars}`, {
+        starBg.strokeRoundedRect(-12, -15, 68, 30, 15);
+        const starIcon = scene.add.image(2, 0, 'star_gold').setScale(0.42);
+        this.starText = scene.add.text(24, 0, `${gameState.getActiveProfile().stars}`, {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '19px',
-            color: '#D47A00'
+            fontSize: '16px',
+            color: '#D47A00',
+            fontStyle: 'bold'
         }).setOrigin(0, 0.5);
         starContainer.add([starBg, starIcon, this.starText]);
         this.add(starContainer);
 
         // Super App Hub Portal Button (returns to game selection)
         if (config.showHub !== false) {
-            const hubBtn = scene.add.container(685, 42);
+            const hubX = config.showAlbum ? 260 : 340;
+            const hubBtn = scene.add.container(hubX, 38);
             const hubBg = scene.add.graphics();
             hubBg.fillStyle(0xEDF6F9, 0.95);
-            hubBg.fillRoundedRect(-15, -18, 100, 36, 18);
+            hubBg.fillRoundedRect(-12, -15, 78, 30, 15);
             hubBg.lineStyle(2, 0x83C5BE, 1);
-            hubBg.strokeRoundedRect(-15, -18, 100, 36, 18);
-            const hubLabel = scene.add.text(35, 0, '🏠 Portal', {
+            hubBg.strokeRoundedRect(-12, -15, 78, 30, 15);
+            const hubLabel = scene.add.text(26, 0, '🏠 Portal', {
                 fontFamily: 'Fredoka, Quicksand, sans-serif',
-                fontSize: '16px',
-                color: '#006D77'
+                fontSize: '13px',
+                color: '#006D77',
+                fontStyle: 'bold'
             }).setOrigin(0.5);
             hubBtn.add([hubBg, hubLabel]);
-            hubBtn.setSize(100, 36);
+            hubBtn.setSize(78, 30);
             hubBtn.setInteractive({ useHandCursor: true });
             hubBtn.on('pointerdown', () => {
                 soundManager.playTap();
@@ -117,20 +115,21 @@ export class TopBar extends GameObjects.Container {
 
         // Album Button (optional)
         if (config.showAlbum) {
-            const albumBtn = scene.add.container(820, 42);
+            const albumBtn = scene.add.container(365, 38);
             const albBg = scene.add.graphics();
             albBg.fillStyle(0xFFE5D9, 0.95);
-            albBg.fillRoundedRect(-15, -18, 100, 36, 18);
+            albBg.fillRoundedRect(-12, -15, 76, 30, 15);
             albBg.lineStyle(2, 0xF4ACB7, 1);
-            albBg.strokeRoundedRect(-15, -18, 100, 36, 18);
-            const albIcon = scene.add.image(2, 0, 'icon_album').setScale(0.45);
-            const albLabel = scene.add.text(26, 0, 'Albüm', {
+            albBg.strokeRoundedRect(-12, -15, 76, 30, 15);
+            const albIcon = scene.add.image(2, 0, 'icon_album').setScale(0.38);
+            const albLabel = scene.add.text(22, 0, 'Albüm', {
                 fontFamily: 'Fredoka, Quicksand, sans-serif',
-                fontSize: '17px',
-                color: '#B56576'
+                fontSize: '13px',
+                color: '#B56576',
+                fontStyle: 'bold'
             }).setOrigin(0, 0.5);
             albumBtn.add([albBg, albIcon, albLabel]);
-            albumBtn.setSize(100, 36);
+            albumBtn.setSize(76, 30);
             albumBtn.setInteractive({ useHandCursor: true });
             albumBtn.on('pointerdown', () => {
                 soundManager.playTap();
@@ -141,14 +140,14 @@ export class TopBar extends GameObjects.Container {
 
         // Therapist Gear Button with 3-second hold guard
         if (config.showTherapist) {
-            this.gearPos = { x: 960, y: 42 };
+            this.gearPos = { x: 485, y: 38 };
             const gearBtn = scene.add.container(this.gearPos.x, this.gearPos.y);
 
-            const gearCircle = scene.add.circle(0, 0, 22, 0xEDF2F4);
+            const gearCircle = scene.add.circle(0, 0, 18, 0xEDF2F4);
             gearCircle.setStrokeStyle(2, 0x8D99AE);
-            const gearIcon = scene.add.image(0, 0, 'icon_gear').setScale(0.55);
+            const gearIcon = scene.add.image(0, 0, 'icon_gear').setScale(0.48);
             gearBtn.add([gearCircle, gearIcon]);
-            gearBtn.setSize(44, 44);
+            gearBtn.setSize(38, 38);
             gearBtn.setInteractive({ useHandCursor: true });
 
             this.holdProgressGfx = scene.add.graphics();
@@ -226,7 +225,9 @@ export class TopBar extends GameObjects.Container {
 
     public refresh(): void {
         this.starText.setText(`${gameState.getActiveProfile().stars}`);
-        this.profileText.setText(`👤 ${authState.getUsername()}`);
+        if (this.profileText) {
+            this.profileText.setText(`👤 ${authState.getUsername()}`);
+        }
     }
 
     public destroy(fromScene?: boolean): void {

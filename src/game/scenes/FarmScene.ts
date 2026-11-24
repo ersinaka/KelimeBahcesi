@@ -31,18 +31,18 @@ export class FarmScene extends Scene {
     create(): void {
         soundManager.stopSpeech();
 
-        // 1. Pastoral Farm Landscape Background
-        this.add.image(512, 384, 'farm_sky_bg');
+        // 1. Pastoral Farm Landscape Background (Mobile Portrait 540x960)
+        this.add.image(270, 480, 'farm_sky_bg');
 
         // Drifting Clouds
         this.createClouds();
 
         // Sun
-        const sun = this.add.image(910, 130, 'sun');
+        const sun = this.add.image(470, 95, 'sun').setScale(0.85);
         this.tweens.add({
             targets: sun,
-            scaleX: 1.08,
-            scaleY: 1.08,
+            scaleX: 0.92,
+            scaleY: 0.92,
             duration: 2500,
             yoyo: true,
             repeat: -1,
@@ -53,13 +53,13 @@ export class FarmScene extends Scene {
         this.createButterflies();
 
         // Farm elements: Trees and Feed Silo
-        this.add.image(80, 470, 'tree').setScale(0.9);
-        this.add.image(960, 450, 'tree').setScale(0.85);
-        this.add.image(930, 520, 'feed_silo');
+        this.add.image(40, 410, 'tree').setScale(0.65);
+        this.add.image(500, 400, 'tree').setScale(0.65);
+        this.add.image(470, 330, 'feed_silo').setScale(0.65);
 
         // Wooden picket fence along back pasture
-        for (let x = 30; x < 1024; x += 95) {
-            this.add.image(x, 480, 'fence').setScale(0.95);
+        for (let x = 15; x < 540; x += 75) {
+            this.add.image(x, 545, 'fence').setScale(0.75);
         }
 
         // 2. Unlocked Decors based on animal count:
@@ -69,11 +69,11 @@ export class FarmScene extends Scene {
         // 3. Wandering Animals or Starter Egg
         this.setupFarmInhabitants();
 
-        // 4. Mini-Game Gateways / Portals (Bottom region)
+        // 4. Mini-Game Gateways / Portals (Bottom region for mobile thumbs)
         this.createMiniGamePortals();
 
-        // 5. Guide Character: Pıtır (Placed in top-left sky, away from pasture & portals)
-        this.pitir = new Pitir(this, 75, 145);
+        // 5. Guide Character: Pıtır (Placed in top-left sky)
+        this.pitir = new Pitir(this, 55, 120);
         this.setupPitirDialogue();
 
         // 6. Top Bar (Header with stars, profile, album, therapist hold button)
@@ -95,9 +95,9 @@ export class FarmScene extends Scene {
 
     private createClouds(): void {
         const cloudPositions = [
-            { x: 200, y: 110, s: 0.8, speed: 18000 },
-            { x: 580, y: 130, s: 1.0, speed: 22000 },
-            { x: 880, y: 95, s: 0.7, speed: 16000 }
+            { x: 120, y: 95, s: 0.65, speed: 18000 },
+            { x: 340, y: 110, s: 0.75, speed: 22000 },
+            { x: 490, y: 85, s: 0.55, speed: 16000 }
         ];
 
         cloudPositions.forEach(c => {
@@ -105,27 +105,27 @@ export class FarmScene extends Scene {
             this.clouds.push(cloud);
             this.tweens.add({
                 targets: cloud,
-                x: 1080,
+                x: 600,
                 duration: c.speed,
                 ease: 'Linear',
                 repeat: -1,
                 onRepeat: () => {
-                    cloud.x = -100;
+                    cloud.x = -80;
                 }
             });
         });
     }
 
     private createButterflies(): void {
-        const bfly1 = this.add.image(280, 430, 'butterfly').setScale(0.8);
-        const bfly2 = this.add.image(750, 480, 'butterfly').setScale(0.7);
+        const bfly1 = this.add.image(160, 380, 'butterfly').setScale(0.7);
+        const bfly2 = this.add.image(420, 420, 'butterfly').setScale(0.65);
         this.butterflies.push(bfly1, bfly2);
 
         [bfly1, bfly2].forEach((bf, i) => {
             this.tweens.add({
                 targets: bf,
-                x: bf.x + (i === 0 ? 80 : -60),
-                y: bf.y + (i === 0 ? -40 : -30),
+                x: bf.x + (i === 0 ? 50 : -45),
+                y: bf.y + (i === 0 ? -30 : -25),
                 scaleX: { from: bf.scaleX, to: -bf.scaleX },
                 duration: 1800 + i * 400,
                 yoyo: true,
@@ -140,13 +140,13 @@ export class FarmScene extends Scene {
 
         // 3 hayvanda ahır (Barn at 3+ animals)
         if (unlockedCount >= 3) {
-            this.add.image(220, 440, 'barn');
-            // Gentle decorative smoke/star on barn
-            const star = this.add.image(220, 340, 'star_gold').setScale(0.4);
+            this.add.image(105, 335, 'barn').setScale(0.65);
+            // Gentle decorative star on barn
+            const star = this.add.image(105, 270, 'star_gold').setScale(0.35);
             this.tweens.add({
                 targets: star,
-                scaleX: 0.5,
-                scaleY: 0.5,
+                scaleX: 0.45,
+                scaleY: 0.45,
                 duration: 1500,
                 yoyo: true,
                 repeat: -1
@@ -155,12 +155,12 @@ export class FarmScene extends Scene {
 
         // 6 hayvanda gölet (Pond at 6+ animals)
         if (unlockedCount >= 6) {
-            this.add.image(520, 480, 'pond');
+            this.add.image(400, 420, 'pond').setScale(0.65);
         }
 
         // 8 hayvanda çiçek bahçesi (Flower Garden at 8 animals)
         if (unlockedCount >= 8) {
-            this.add.image(810, 470, 'flower_garden');
+            this.add.image(110, 450, 'flower_garden').setScale(0.65);
         }
     }
 
@@ -170,15 +170,15 @@ export class FarmScene extends Scene {
 
         if (unlockedIds.length === 0) {
             // Initial Empty Farm: A gentle rocking egg on nest with signpost
-            const eggContainer = this.add.container(512, 530);
+            const eggContainer = this.add.container(270, 420);
 
             // Straw nest
             const nest = this.add.graphics();
             nest.fillStyle(0xDDA15E, 0.9);
-            nest.fillEllipse(0, 30, 90, 30);
+            nest.fillEllipse(0, 24, 75, 24);
             eggContainer.add(nest);
 
-            const starterEgg = this.add.image(0, 0, 'egg_intact').setScale(0.9);
+            const starterEgg = this.add.image(0, 0, 'egg_intact').setScale(0.75);
             eggContainer.add(starterEgg);
 
             // Gentle rocking
@@ -194,16 +194,17 @@ export class FarmScene extends Scene {
             // Signpost
             const signBg = this.add.graphics();
             signBg.fillStyle(0xFFF3CD, 0.95);
-            signBg.fillRoundedRect(390, 580, 244, 42, 14);
-            signBg.lineStyle(3, 0xD4A373, 1);
-            signBg.strokeRoundedRect(390, 580, 244, 42, 14);
-            this.add.text(512, 601, 'İlk Yumurtan Burada! 🐣', {
+            signBg.fillRoundedRect(160, 470, 220, 36, 14);
+            signBg.lineStyle(2, 0xD4A373, 1);
+            signBg.strokeRoundedRect(160, 470, 220, 36, 14);
+            this.add.text(270, 488, 'İlk Yumurtan Burada! 🐣', {
                 fontFamily: 'Fredoka, Quicksand, sans-serif',
-                fontSize: '18px',
-                color: '#6A3805'
+                fontSize: '15px',
+                color: '#6A3805',
+                fontStyle: 'bold'
             }).setOrigin(0.5);
 
-            eggContainer.setSize(90, 90);
+            eggContainer.setSize(80, 80);
             eggContainer.setInteractive({ useHandCursor: true });
             eggContainer.on('pointerdown', () => {
                 soundManager.playCrack();
@@ -215,16 +216,16 @@ export class FarmScene extends Scene {
             return;
         }
 
-        // Wandering Unlocked Animals
+        // Wandering Unlocked Animals in portrait pasture
         const availableSlots = [
-            { x: 230, y: 530 },
-            { x: 380, y: 510 },
-            { x: 540, y: 540 },
-            { x: 690, y: 515 },
-            { x: 820, y: 535 },
-            { x: 300, y: 560 },
-            { x: 460, y: 565 },
-            { x: 620, y: 560 }
+            { x: 180, y: 360 },
+            { x: 340, y: 350 },
+            { x: 130, y: 440 },
+            { x: 270, y: 430 },
+            { x: 410, y: 440 },
+            { x: 190, y: 495 },
+            { x: 330, y: 500 },
+            { x: 270, y: 370 }
         ];
 
         unlockedIds.forEach((id, index) => {
@@ -237,20 +238,20 @@ export class FarmScene extends Scene {
             // Shadow
             const shadow = this.add.graphics();
             shadow.fillStyle(0x000000, 0.12);
-            shadow.fillEllipse(0, 42, 60, 18);
+            shadow.fillEllipse(0, 34, 48, 14);
             container.add(shadow);
 
             // Animal Sprite (scaled for 512x512 full body)
-            const sprite = this.add.image(0, -10, getAnimalTextureKey(this, animal.id)).setScale(0.26);
+            const sprite = this.add.image(0, -8, getAnimalTextureKey(this, animal.id)).setScale(0.22);
             container.add(sprite);
 
             // Feed Badge if Animal is fed!
             let foodBadge: GameObjects.Container | undefined;
             if (profile.fedAnimalIds.includes(animal.id)) {
-                foodBadge = this.add.container(26, -50);
-                const fBg = this.add.circle(0, 0, 15, 0xFFF3B0);
+                foodBadge = this.add.container(22, -40);
+                const fBg = this.add.circle(0, 0, 13, 0xFFF3B0);
                 fBg.setStrokeStyle(2, 0xF6BD60);
-                const fImg = this.add.image(0, 0, `food_${animal.foodId}`).setScale(0.32);
+                const fImg = this.add.image(0, 0, `food_${animal.foodId}`).setScale(0.26);
                 foodBadge.add([fBg, fImg]);
                 container.add(foodBadge);
 
@@ -265,7 +266,7 @@ export class FarmScene extends Scene {
                 });
             }
 
-            container.setSize(80, 80);
+            container.setSize(70, 70);
             container.setInteractive({ useHandCursor: true });
 
             container.on('pointerdown', () => {
@@ -336,36 +337,34 @@ export class FarmScene extends Scene {
     }
 
     private createMiniGamePortals(): void {
-        const portalY = 660;
-
-        // 3 Mini-Games with big touch-friendly pill buttons (min 120x120px area)
+        // 3 Mini-Games with big mobile touch-friendly wide cards
         const portals = [
             {
                 id: 'WhoIsThisScene',
-                title: 'Bu Kim?',
-                sub: 'Dinle & Bul',
+                title: 'Bu Kim? 🔍',
+                sub: 'Dinle ve Doğru Hayvanı Bul',
                 emoji: '👂',
-                x: 370,
+                y: 630,
                 color: 0x90E0EF,
                 borderColor: 0x0077B6,
                 textColor: 0x03045E
             },
             {
                 id: 'RepeatScene',
-                title: 'Tekrar Et!',
-                sub: 'Söyle & Kazan',
-                emoji: '🗣️',
-                x: 600,
+                title: 'Tekrar Et! 🗣️',
+                sub: 'Hayvan Adını Birlikte Söyleyelim',
+                emoji: '📢',
+                y: 725,
                 color: 0xFFCAD4,
                 borderColor: 0xD90429,
                 textColor: 0x590D22
             },
             {
                 id: 'WhatEatsScene',
-                title: 'Ne Yer?',
-                sub: 'Yemini Bul',
-                emoji: '🥕',
-                x: 830,
+                title: 'Ne Yer? 🥕',
+                sub: 'Hayvanların Sevdiği Yemi Bul',
+                emoji: '🌾',
+                y: 820,
                 color: 0xD8F3DC,
                 borderColor: 0x2D6A4F,
                 textColor: 0x081C15
@@ -373,49 +372,62 @@ export class FarmScene extends Scene {
         ];
 
         portals.forEach(p => {
-            const btn = this.add.container(p.x, portalY);
+            const btn = this.add.container(270, p.y);
 
-            // Card body (190x95)
+            // Card body (490x76)
             const bg = this.add.graphics();
             bg.fillStyle(0xFFFFFF, 0.96);
-            bg.fillRoundedRect(-95, -45, 190, 90, 22);
+            bg.fillRoundedRect(-245, -38, 490, 76, 20);
             bg.fillStyle(p.color, 0.45);
-            bg.fillRoundedRect(-95, -45, 190, 90, 22);
-            bg.lineStyle(4, p.borderColor, 1);
-            bg.strokeRoundedRect(-95, -45, 190, 90, 22);
+            bg.fillRoundedRect(-245, -38, 490, 76, 20);
+            bg.lineStyle(3, p.borderColor, 1);
+            bg.strokeRoundedRect(-245, -38, 490, 76, 20);
             btn.add(bg);
 
-            // Portal Emoji & Icon
-            const emojiText = this.add.text(-50, -4, p.emoji, {
-                fontSize: '36px'
+            // Left Emoji
+            const emojiText = this.add.text(-200, 0, p.emoji, {
+                fontSize: '32px'
             }).setOrigin(0.5);
             btn.add(emojiText);
 
-            // Portal Title
-            const title = this.add.text(12, -14, p.title, {
+            // Title
+            const title = this.add.text(-160, -12, p.title, {
                 fontFamily: 'Fredoka, Quicksand, "Comic Sans MS", sans-serif',
-                fontSize: '22px',
-                color: `#${p.textColor.toString(16).padStart(6, '0')}`
-            }).setOrigin(0.5, 0.5);
+                fontSize: '20px',
+                color: `#${p.textColor.toString(16).padStart(6, '0')}`,
+                fontStyle: 'bold'
+            }).setOrigin(0, 0.5);
             btn.add(title);
 
-            // Portal Subtitle
-            const sub = this.add.text(12, 16, p.sub, {
+            // Subtitle
+            const sub = this.add.text(-160, 14, p.sub, {
                 fontFamily: 'Fredoka, Quicksand, sans-serif',
-                fontSize: '15px',
-                color: '#555B6E'
-            }).setOrigin(0.5, 0.5);
+                fontSize: '13px',
+                color: '#475569'
+            }).setOrigin(0, 0.5);
             btn.add(sub);
 
-            btn.setSize(190, 90);
+            // Right "Oyna ▶" Pill
+            const playPill = this.add.graphics();
+            playPill.fillStyle(p.borderColor, 1);
+            playPill.fillRoundedRect(145, -16, 85, 32, 16);
+            const playText = this.add.text(187, 0, 'Oyna ▶', {
+                fontFamily: 'Fredoka, Quicksand, sans-serif',
+                fontSize: '13px',
+                color: '#FFFFFF',
+                fontStyle: 'bold'
+            }).setOrigin(0.5);
+            btn.add([playPill, playText]);
+
+            btn.setSize(490, 76);
             btn.setInteractive({ useHandCursor: true });
 
             btn.on('pointerdown', () => {
                 soundManager.playTap();
                 this.tweens.add({
                     targets: btn,
-                    scaleX: 0.94,
-                    scaleY: 0.94,
+                    scaleX: 0.96,
+                    scaleY: 0.96,
                     duration: 80,
                     yoyo: true,
                     onComplete: () => {
@@ -427,8 +439,8 @@ export class FarmScene extends Scene {
             // Gentle idle hover breathe
             this.tweens.add({
                 targets: btn,
-                y: portalY - 4,
-                duration: 1600 + Math.random() * 500,
+                y: p.y - 3,
+                duration: 1800 + Math.random() * 400,
                 yoyo: true,
                 repeat: -1,
                 ease: 'Sine.easeInOut'
@@ -440,7 +452,7 @@ export class FarmScene extends Scene {
         const unlocked = gameState.getActiveProfile().unlockedAnimalIds.length;
         if (unlocked === 0) {
             this.pitir.say(
-                'Çiftliğimize hoş geldin! Hadi bir oyun seçelim ve ilk hayvanımızı kazanalım!',
+                'Çiftliğimize hoş geldin! Hadi bir oyun seç ve ilk hayvanını kazan!',
                 'Kelime Bahçesine hoş geldin! Aşağıdaki oyunlardan birini seç!'
             );
         } else if (unlocked < 8) {
@@ -460,23 +472,24 @@ export class FarmScene extends Scene {
         const profile = gameState.getActiveProfile();
         if (profile.unlockedAnimalIds.length >= 8 && profile.fedAnimalIds.length >= 8) {
             // Grand celebration banner
-            const banner = this.add.container(512, 180);
+            const banner = this.add.container(270, 190);
             const bBg = this.add.graphics();
             bBg.fillStyle(0xFFD166, 0.95);
-            bBg.fillRoundedRect(-220, -35, 440, 70, 24);
-            bBg.lineStyle(4, 0xF4A261, 1);
-            bBg.strokeRoundedRect(-220, -35, 440, 70, 24);
+            bBg.fillRoundedRect(-180, -28, 360, 56, 20);
+            bBg.lineStyle(3, 0xF4A261, 1);
+            bBg.strokeRoundedRect(-180, -28, 360, 56, 20);
             const bTxt = this.add.text(0, 0, '🌟 Çiftlik Tamamlandı! Harikasın! 🌟', {
                 fontFamily: 'Fredoka, Quicksand, sans-serif',
-                fontSize: '22px',
-                color: '#6A3805'
+                fontSize: '17px',
+                color: '#6A3805',
+                fontStyle: 'bold'
             }).setOrigin(0.5);
             banner.add([bBg, bTxt]);
 
             this.tweens.add({
                 targets: banner,
-                scaleX: 1.05,
-                scaleY: 1.05,
+                scaleX: 1.04,
+                scaleY: 1.04,
                 duration: 1200,
                 yoyo: true,
                 repeat: -1
@@ -490,8 +503,8 @@ export class FarmScene extends Scene {
             if (!wa.isMoving) {
                 // Occasionally pick a new target position
                 if (Math.random() < 0.005) {
-                    wa.targetX = Phaser.Math.Between(200, 850);
-                    wa.targetY = Phaser.Math.Between(510, 570);
+                    wa.targetX = Phaser.Math.Between(100, 440);
+                    wa.targetY = Phaser.Math.Between(360, 510);
                     wa.isMoving = true;
                 }
             } else {
@@ -508,9 +521,9 @@ export class FarmScene extends Scene {
 
                     // Face movement direction
                     if (dx > 0) {
-                        wa.sprite.setScale(-0.26, 0.26);
+                        wa.sprite.setScale(-0.22, 0.22);
                     } else {
-                        wa.sprite.setScale(0.26, 0.26);
+                        wa.sprite.setScale(0.22, 0.22);
                     }
                 }
             }

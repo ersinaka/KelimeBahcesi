@@ -25,8 +25,8 @@ export class WhoIsThisScene extends Scene {
     create(): void {
         soundManager.stopSpeech();
 
-        // Background
-        this.add.image(512, 384, 'farm_sky_bg');
+        // Background (Mobile Portrait 540x960)
+        this.add.image(270, 480, 'farm_sky_bg');
 
         // Top Bar
         this.topBar = new TopBar(this, {
@@ -37,7 +37,7 @@ export class WhoIsThisScene extends Scene {
         });
 
         // Guide Character: Pıtır (top left)
-        this.pitir = new Pitir(this, 75, 145);
+        this.pitir = new Pitir(this, 55, 120);
 
         // Round & Stars tracker
         const settings = gameState.getActiveProfile().settings;
@@ -51,7 +51,7 @@ export class WhoIsThisScene extends Scene {
     }
 
     private setupRoundIndicators(): void {
-        this.roundStarsContainer = this.add.container(512, 110);
+        this.roundStarsContainer = this.add.container(270, 190);
         this.updateRoundStars();
     }
 
@@ -110,44 +110,56 @@ export class WhoIsThisScene extends Scene {
 
     private displayCards(animals: AnimalData[]): void {
         const count = animals.length;
-        const spacing = count === 2 ? 300 : 250;
-        const startX = 512 - ((count - 1) * spacing) / 2;
-        const cardY = 360;
+        const yPositions = count === 2 ? [380, 560] : [300, 475, 650];
 
         animals.forEach((animal, i) => {
-            const cx = startX + i * spacing;
-            const container = this.add.container(cx, cardY);
+            const cardY = yPositions[i];
+            const container = this.add.container(270, cardY);
 
-            // Card background plate (220x270)
+            // Card background plate (480x145 for mobile thumbs)
             const bg = this.add.graphics();
             bg.fillStyle(0xFFFFFF, 0.98);
-            bg.fillRoundedRect(-110, -135, 220, 270, 26);
-            bg.lineStyle(5, animal.bgColor, 1);
-            bg.strokeRoundedRect(-110, -135, 220, 270, 26);
+            bg.fillRoundedRect(-240, -72, 480, 145, 24);
+            bg.fillStyle(animal.bgColor, 0.22);
+            bg.fillRoundedRect(-240, -72, 480, 145, 24);
+            bg.lineStyle(4, animal.bgColor, 1);
+            bg.strokeRoundedRect(-240, -72, 480, 145, 24);
             container.add(bg);
 
-            // Animal Illustration (sized appropriately for 512x512 full body)
-            const sprite = this.add.image(0, -25, getAnimalTextureKey(this, animal.id)).setScale(0.38);
+            // Animal Illustration on left side
+            const sprite = this.add.image(-140, 0, getAnimalTextureKey(this, animal.id)).setScale(0.25);
             container.add(sprite);
 
             // Animal Name in big friendly letters
-            const nameText = this.add.text(0, 78, animal.name, {
+            const nameText = this.add.text(15, -14, animal.name, {
                 fontFamily: 'Fredoka, Quicksand, "Comic Sans MS", sans-serif',
-                fontSize: '26px',
+                fontSize: '32px',
                 color: '#2B2D42',
-                align: 'center'
-            }).setOrigin(0.5);
+                fontStyle: 'bold',
+                align: 'left'
+            }).setOrigin(0, 0.5);
             container.add(nameText);
 
             // Syllables indicator (e.g. KE - Dİ)
-            const sylText = this.add.text(0, 110, animal.syllables.join(' - '), {
+            const sylText = this.add.text(15, 24, animal.syllables.join(' - '), {
                 fontFamily: 'Fredoka, Quicksand, sans-serif',
-                fontSize: '16px',
-                color: '#D47A00'
-            }).setOrigin(0.5);
+                fontSize: '18px',
+                color: '#D47A00',
+                fontStyle: 'bold'
+            }).setOrigin(0, 0.5);
             container.add(sylText);
 
-            container.setSize(220, 270);
+            // Tap badge on right
+            const tapCircle = this.add.circle(185, 0, 24, animal.bgColor, 0.4);
+            const tapArrow = this.add.text(185, 0, '✓', {
+                fontFamily: 'Fredoka, sans-serif',
+                fontSize: '22px',
+                color: '#2D6A4F',
+                fontStyle: 'bold'
+            }).setOrigin(0.5);
+            container.add([tapCircle, tapArrow]);
+
+            container.setSize(480, 145);
             container.setInteractive({ useHandCursor: true });
 
             container.on('pointerdown', () => {
@@ -224,8 +236,8 @@ export class WhoIsThisScene extends Scene {
         const star = this.add.image(startX, startY, 'star_gold').setScale(0.8);
         this.tweens.add({
             targets: star,
-            x: 650,
-            y: 42,
+            x: 165,
+            y: 38,
             scaleX: 0.4,
             scaleY: 0.4,
             duration: 700,

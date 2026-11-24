@@ -37,8 +37,8 @@ export class RepeatScene extends Scene {
     create(): void {
         soundManager.stopSpeech();
 
-        // Background
-        this.add.image(512, 384, 'farm_sky_bg');
+        // Background (Mobile Portrait 540x960)
+        this.add.image(270, 480, 'farm_sky_bg');
 
         // Top Bar
         this.topBar = new TopBar(this, {
@@ -49,7 +49,7 @@ export class RepeatScene extends Scene {
         });
 
         // Guide Character: Pıtır (top left)
-        this.pitir = new Pitir(this, 75, 145);
+        this.pitir = new Pitir(this, 55, 120);
 
         // Load active animal pool
         const pool = gameState.getActiveAnimals();
@@ -69,22 +69,22 @@ export class RepeatScene extends Scene {
 
     private buildMainCard(): void {
         // Center Card Container
-        this.animalContainer = this.add.container(512, 310);
+        this.animalContainer = this.add.container(270, 350);
 
-        // Card backdrop (360x350)
+        // Card backdrop (460x320)
         const cardBg = this.add.graphics();
         cardBg.fillStyle(0xFFFFFF, 0.98);
-        cardBg.fillRoundedRect(-180, -175, 360, 350, 26);
-        cardBg.lineStyle(5, 0xE2E8F0, 1);
-        cardBg.strokeRoundedRect(-180, -175, 360, 350, 26);
+        cardBg.fillRoundedRect(-230, -160, 460, 320, 24);
+        cardBg.lineStyle(4, 0xE2E8F0, 1);
+        cardBg.strokeRoundedRect(-230, -160, 460, 320, 24);
         this.animalContainer.add(cardBg);
 
         // Animal Sprite (appropriately scaled for 512x512 full body)
-        this.animalSprite = this.add.image(0, -45, 'animal_kedi').setScale(0.46);
+        this.animalSprite = this.add.image(0, -35, 'animal_kedi').setScale(0.38);
         this.animalContainer.add(this.animalSprite);
 
         // Speaker icon beside animal to hear pronunciation
-        const speakerBtn = this.add.container(135, -125);
+        const speakerBtn = this.add.container(175, -115);
         const spkCircle = this.add.circle(0, 0, 22, 0x52B788);
         const spkImg = this.add.image(0, 0, 'icon_speaker').setScale(0.5);
         speakerBtn.add([spkCircle, spkImg]);
@@ -97,67 +97,71 @@ export class RepeatScene extends Scene {
         this.animalContainer.add(speakerBtn);
 
         // Animal Name Text
-        this.nameText = this.add.text(0, 65, '', {
+        this.nameText = this.add.text(0, 72, '', {
             fontFamily: 'Fredoka, Quicksand, "Comic Sans MS", sans-serif',
-            fontSize: '32px',
-            color: '#2B2D42'
+            fontSize: '34px',
+            color: '#2B2D42',
+            fontStyle: 'bold'
         }).setOrigin(0.5);
         this.animalContainer.add(this.nameText);
 
         // Syllables Chips Container
-        this.syllablesContainer = this.add.container(0, 115);
+        this.syllablesContainer = this.add.container(0, 120);
         this.animalContainer.add(this.syllablesContainer);
 
-        // Repetition 3 Star Indicators (below card at y=520)
-        const starsBox = this.add.container(512, 520);
-        const repLabel = this.add.text(0, -28, '3 Kere Tekrar Edelim: ', {
+        // Repetition 3 Star Indicators (below card at y=545)
+        const starsBox = this.add.container(270, 545);
+        const repLabel = this.add.text(0, -22, '3 Kere Tekrar Edelim: ', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '18px',
-            color: '#4A5568'
+            fontSize: '16px',
+            color: '#4A5568',
+            fontStyle: 'bold'
         }).setOrigin(0.5);
         starsBox.add(repLabel);
 
         this.repStars = [];
-        [-50, 0, 50].forEach(x => {
-            const circle = this.add.circle(x, 8, 20, 0xFFFFFF, 0.95);
+        [-52, 0, 52].forEach(x => {
+            const circle = this.add.circle(x, 12, 18, 0xFFFFFF, 0.95);
             circle.setStrokeStyle(2, 0xCBD5E1);
-            const star = this.add.image(x, 8, 'star_gold').setScale(0.4).setAlpha(0.25);
+            const star = this.add.image(x, 12, 'star_gold').setScale(0.38).setAlpha(0.25);
             starsBox.add([circle, star]);
             this.repStars.push(star);
         });
 
-        // Two Big Buttons Underneath (min 120x120px / 220x65px per GDD):
+        // Two Big Buttons Underneath for mobile/tablet thumbs:
         // 1. "Doğru söyledi ✓" (Therapist or parent taps)
-        this.correctBtn = this.add.container(650, 620);
+        this.correctBtn = this.add.container(270, 655);
         const corBg = this.add.graphics();
         corBg.fillStyle(0x52B788, 1);
-        corBg.fillRoundedRect(-110, -32, 220, 64, 32);
+        corBg.fillRoundedRect(-230, -32, 460, 64, 20);
         corBg.lineStyle(3, 0x2D6A4F, 1);
-        corBg.strokeRoundedRect(-110, -32, 220, 64, 32);
+        corBg.strokeRoundedRect(-230, -32, 460, 64, 20);
         const corLabel = this.add.text(0, 0, 'Doğru söyledi  ✓', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '20px',
-            color: '#FFFFFF'
+            fontSize: '22px',
+            color: '#FFFFFF',
+            fontStyle: 'bold'
         }).setOrigin(0.5);
         this.correctBtn.add([corBg, corLabel]);
-        this.correctBtn.setSize(220, 64);
+        this.correctBtn.setSize(460, 64);
         this.correctBtn.setInteractive({ useHandCursor: true });
         this.correctBtn.on('pointerdown', () => this.handleCorrectRepeat());
 
         // 2. "Tekrar deneyelim ↻"
-        this.retryBtn = this.add.container(370, 620);
+        this.retryBtn = this.add.container(270, 735);
         const retBg = this.add.graphics();
         retBg.fillStyle(0xFFE5D9, 1);
-        retBg.fillRoundedRect(-110, -32, 220, 64, 32);
-        retBg.lineStyle(3, 0xF3A683, 1);
-        retBg.strokeRoundedRect(-110, -32, 220, 64, 32);
+        retBg.fillRoundedRect(-230, -28, 460, 56, 18);
+        retBg.lineStyle(2, 0xF3A683, 1);
+        retBg.strokeRoundedRect(-230, -28, 460, 56, 18);
         const retLabel = this.add.text(0, 0, 'Tekrar deneyelim  ↻', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '19px',
-            color: '#6A3805'
+            fontSize: '18px',
+            color: '#6A3805',
+            fontStyle: 'bold'
         }).setOrigin(0.5);
         this.retryBtn.add([retBg, retLabel]);
-        this.retryBtn.setSize(220, 64);
+        this.retryBtn.setSize(460, 56);
         this.retryBtn.setInteractive({ useHandCursor: true });
         this.retryBtn.on('pointerdown', () => this.handleRetryRepeat());
     }

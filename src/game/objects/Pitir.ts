@@ -36,21 +36,21 @@ export class Pitir extends GameObjects.Container {
         this.bubbleBg = scene.add.graphics();
         this.bubbleContainer.add(this.bubbleBg);
 
-        this.bubbleText = scene.add.text(18, -4, '', {
+        this.bubbleText = scene.add.text(16, -4, '', {
             fontFamily: 'Fredoka, Quicksand, "Comic Sans MS", sans-serif',
-            fontSize: '19px',
+            fontSize: '16px',
             color: '#2B2D42',
-            wordWrap: { width: 300 },
+            wordWrap: { width: 310 },
             align: 'left'
         }).setOrigin(0, 0.5);
         this.bubbleContainer.add(this.bubbleText);
 
         // Speaker / Listen Again Button
-        this.speakerBtn = scene.add.container(350, -4);
-        const spkBg = scene.add.circle(0, 0, 18, 0x52B788);
-        const spkIcon = scene.add.image(0, 0, 'icon_speaker').setScale(0.45);
+        this.speakerBtn = scene.add.container(330, -4);
+        const spkBg = scene.add.circle(0, 0, 16, 0x52B788);
+        const spkIcon = scene.add.image(0, 0, 'icon_speaker').setScale(0.40);
         this.speakerBtn.add([spkBg, spkIcon]);
-        this.speakerBtn.setSize(38, 38);
+        this.speakerBtn.setSize(34, 34);
         this.speakerBtn.setInteractive({ useHandCursor: true });
         this.speakerBtn.on('pointerdown', () => {
             soundManager.playTap();
@@ -112,11 +112,11 @@ export class Pitir extends GameObjects.Container {
         this.bubbleText.setText(text);
 
         const bounds = this.bubbleText.getBounds();
-        const bubbleWidth = Math.max(260, bounds.width + 80);
-        const bubbleHeight = Math.max(64, bounds.height + 26);
+        const bubbleWidth = Math.min(430, Math.max(220, bounds.width + 64));
+        const bubbleHeight = Math.max(56, bounds.height + 22);
 
         this.drawBubble(bubbleWidth, bubbleHeight);
-        this.speakerBtn.setX(bubbleWidth - 30);
+        this.speakerBtn.setX(bubbleWidth - 25);
 
         // Bubble pop-in animation
         this.bubbleContainer.setScale(0.8);

@@ -46,8 +46,8 @@ export class WhatEatsScene extends Scene {
     create(): void {
         soundManager.stopSpeech();
 
-        // Background
-        this.add.image(512, 384, 'farm_sky_bg');
+        // Background (Mobile Portrait 540x960)
+        this.add.image(270, 480, 'farm_sky_bg');
 
         // Top Bar
         this.topBar = new TopBar(this, {
@@ -58,7 +58,7 @@ export class WhatEatsScene extends Scene {
         });
 
         // Guide Character: Pıtır (top left)
-        this.pitir = new Pitir(this, 75, 145);
+        this.pitir = new Pitir(this, 55, 120);
 
         this.totalRounds = Math.min(3, gameState.getActiveAnimals().length);
         this.currentRound = 0;
@@ -71,37 +71,38 @@ export class WhatEatsScene extends Scene {
     }
 
     private buildAnimalStage(): void {
-        this.animalContainer = this.add.container(512, 280);
+        this.animalContainer = this.add.container(270, 330);
 
         // Stage Pedestal Shadow
         const shadow = this.add.graphics();
         shadow.fillStyle(0x000000, 0.12);
-        shadow.fillEllipse(0, 95, 140, 32);
+        shadow.fillEllipse(0, 80, 130, 28);
         this.animalContainer.add(shadow);
 
         // Animal Sprite (appropriately scaled for 512x512 full body)
-        this.animalSprite = this.add.image(0, 5, getAnimalTextureKey(this, this.targetAnimal.id)).setScale(0.52);
+        this.animalSprite = this.add.image(0, 0, getAnimalTextureKey(this, this.targetAnimal.id)).setScale(0.42);
         this.animalContainer.add(this.animalSprite);
 
         // Animal prompt bubble above head
         const bubbleBg = this.add.graphics();
         bubbleBg.fillStyle(0xFFFFFF, 0.96);
-        bubbleBg.fillRoundedRect(-140, -155, 280, 52, 18);
-        bubbleBg.lineStyle(3, 0xD8E2DC, 1);
-        bubbleBg.strokeRoundedRect(-140, -155, 280, 52, 18);
+        bubbleBg.fillRoundedRect(-130, -135, 260, 48, 16);
+        bubbleBg.lineStyle(2.5, 0xD8E2DC, 1);
+        bubbleBg.strokeRoundedRect(-130, -135, 260, 48, 16);
         this.animalContainer.add(bubbleBg);
 
-        this.animalSpeechText = this.add.text(0, -129, '', {
+        this.animalSpeechText = this.add.text(0, -111, '', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '20px',
-            color: '#2B2D42'
+            fontSize: '18px',
+            color: '#2B2D42',
+            fontStyle: 'bold'
         }).setOrigin(0.5);
         this.animalContainer.add(this.animalSpeechText);
 
         // Gentle breathing animation
         this.tweens.add({
             targets: this.animalSprite,
-            scaleY: 0.54,
+            scaleY: 0.44,
             duration: 1400,
             yoyo: true,
             repeat: -1,
@@ -136,36 +137,37 @@ export class WhatEatsScene extends Scene {
     }
 
     private displayFoodOptions(choices: FoodData[], correctFoodId: string): void {
-        const spacing = 240;
-        const startX = 512 - ((choices.length - 1) * spacing) / 2;
-        const foodY = 530;
+        const spacing = 165;
+        const startX = 270 - ((choices.length - 1) * spacing) / 2;
+        const foodY = 620;
 
         choices.forEach((food, i) => {
             const fx = startX + i * spacing;
             const container = this.add.container(fx, foodY);
 
-            // Card background (170x130)
+            // Card background (145x135 for mobile screens)
             const bg = this.add.graphics();
             bg.fillStyle(0xFFFFFF, 0.98);
-            bg.fillRoundedRect(-85, -65, 170, 130, 22);
-            bg.lineStyle(4, 0xD8E2DC, 1);
-            bg.strokeRoundedRect(-85, -65, 170, 130, 22);
+            bg.fillRoundedRect(-72, -67, 145, 135, 20);
+            bg.lineStyle(3, 0xD8E2DC, 1);
+            bg.strokeRoundedRect(-72, -67, 145, 135, 20);
             container.add(bg);
 
             // Food image
             const textureKey = `food_${food.id}`;
-            const foodSprite = this.add.image(0, -12, this.textures.exists(textureKey) ? textureKey : 'food_cimen').setScale(0.85);
+            const foodSprite = this.add.image(0, -12, this.textures.exists(textureKey) ? textureKey : 'food_cimen').setScale(0.80);
             container.add(foodSprite);
 
             // Food name text
-            const nameTxt = this.add.text(0, 38, food.name, {
+            const nameTxt = this.add.text(0, 36, food.name, {
                 fontFamily: 'Fredoka, Quicksand, sans-serif',
-                fontSize: '19px',
-                color: '#2B2D42'
+                fontSize: '17px',
+                color: '#2B2D42',
+                fontStyle: 'bold'
             }).setOrigin(0.5);
             container.add(nameTxt);
 
-            container.setSize(170, 130);
+            container.setSize(145, 135);
             container.setInteractive({ useHandCursor: true });
             this.input.setDraggable(container);
 
@@ -192,9 +194,9 @@ export class WhatEatsScene extends Scene {
 
             container.on('dragend', () => {
                 if (!this.isWaitingInput) return;
-                // Check if dropped near the animal (within 220px of center x: 512, y: 280)
-                const dist = Phaser.Math.Distance.Between(container.x, container.y, 512, 280);
-                if (dist < 220) {
+                // Check if dropped near the animal (within 180px of center x: 270, y: 330)
+                const dist = Phaser.Math.Distance.Between(container.x, container.y, 270, 330);
+                if (dist < 180) {
                     this.evaluateChoice(foodCardItem);
                 } else {
                     // Snap back
@@ -247,8 +249,8 @@ export class WhatEatsScene extends Scene {
             // Animate food flying into animal mouth
             this.tweens.add({
                 targets: card.container,
-                x: 512,
-                y: 280,
+                x: 270,
+                y: 330,
                 scaleX: 0.2,
                 scaleY: 0.2,
                 alpha: 0,
@@ -316,10 +318,10 @@ export class WhatEatsScene extends Scene {
 
     private spawnHearts(): void {
         for (let i = 0; i < 6; i++) {
-            const h = this.add.image(512 + Phaser.Math.Between(-50, 50), 240, 'heart_pink').setScale(0.6);
+            const h = this.add.image(270 + Phaser.Math.Between(-40, 40), 280, 'heart_pink').setScale(0.6);
             this.tweens.add({
                 targets: h,
-                y: 160 - i * 15,
+                y: 200 - i * 15,
                 x: h.x + Phaser.Math.Between(-30, 30),
                 alpha: 0,
                 scaleX: 0.9,

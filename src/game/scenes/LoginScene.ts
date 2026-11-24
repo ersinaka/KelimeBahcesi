@@ -26,19 +26,19 @@ export class LoginScene extends Scene {
         }
 
         // Sky & Meadow Background
-        this.add.image(512, 384, 'farm_sky_bg');
+        this.add.image(270, 480, 'farm_sky_bg');
 
         // Drifting Clouds
-        const c1 = this.add.image(220, 110, 'cloud').setScale(0.85).setAlpha(0.9);
-        const c2 = this.add.image(780, 95, 'cloud').setScale(0.75).setAlpha(0.9);
-        this.tweens.add({ targets: c1, x: 1080, duration: 20000, repeat: -1, onRepeat: () => { c1.x = -100; } });
-        this.tweens.add({ targets: c2, x: 1080, duration: 18000, repeat: -1, onRepeat: () => { c2.x = -100; } });
+        const c1 = this.add.image(120, 100, 'cloud').setScale(0.7).setAlpha(0.9);
+        const c2 = this.add.image(420, 80, 'cloud').setScale(0.6).setAlpha(0.9);
+        this.tweens.add({ targets: c1, x: 600, duration: 18000, repeat: -1, onRepeat: () => { c1.x = -80; } });
+        this.tweens.add({ targets: c2, x: 600, duration: 15000, repeat: -1, onRepeat: () => { c2.x = -80; } });
 
         // Sun
-        this.add.image(910, 130, 'sun');
+        this.add.image(470, 95, 'sun').setScale(0.85);
 
         // Pıtır the guide character in top-left
-        this.pitir = new Pitir(this, 75, 145);
+        this.pitir = new Pitir(this, 55, 125);
         this.pitir.say(
             'Hoş geldin! Lütfen kullanıcı adını ve erişim şifreni gir!',
             'Gelişim Bahçesine hoş geldin! Giriş yaparak oyunlara erişebilirsin!'
@@ -51,20 +51,21 @@ export class LoginScene extends Scene {
     private buildLoginForm(): void {
         const formHtml = `
         <div style="
-            width: 440px;
+            width: 420px;
+            max-width: 94vw;
             background: rgba(255, 255, 255, 0.98);
-            border-radius: 28px;
-            padding: 32px 36px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
-            border: 4px solid #83C5BE;
+            border-radius: 26px;
+            padding: 24px 24px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+            border: 3px solid #83C5BE;
             font-family: 'Fredoka', 'Quicksand', sans-serif;
             text-align: center;
             box-sizing: border-box;
         ">
-            <div style="font-size: 28px; font-weight: 700; color: #2D6A4F; margin-bottom: 4px;">
+            <div style="font-size: 26px; font-weight: 700; color: #2D6A4F; margin-bottom: 2px;">
                 Gelişim Bahçesi 🌈
             </div>
-            <div style="font-size: 15px; color: #64748B; margin-bottom: 22px;">
+            <div style="font-size: 14px; color: #64748B; margin-bottom: 18px;">
                 Çocuk Terapi ve Eğitim Süper Uygulaması
             </div>
 
@@ -137,7 +138,7 @@ export class LoginScene extends Scene {
         </div>
         `;
 
-        this.domElement = this.add.dom(512, 420).createFromHTML(formHtml);
+        this.domElement = this.add.dom(270, 530).createFromHTML(formHtml);
 
         // Bind interactive elements
         const usernameEl = document.getElementById('login-username') as HTMLInputElement;

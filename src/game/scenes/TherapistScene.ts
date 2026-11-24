@@ -21,33 +21,34 @@ export class TherapistScene extends Scene {
     create(): void {
         soundManager.stopSpeech();
 
-        // Darkened background backdrop
+        // Darkened background backdrop (Mobile Portrait 540x960)
         const backdrop = this.add.graphics();
-        backdrop.fillStyle(0x1E293B, 0.7);
-        backdrop.fillRect(0, 0, 1024, 768);
+        backdrop.fillStyle(0x0F172A, 0.75);
+        backdrop.fillRect(0, 0, 540, 960);
 
-        // Center Panel (940x690)
-        this.mainContainer = this.add.container(512, 384);
+        // Center Panel (500x910)
+        this.mainContainer = this.add.container(270, 480);
 
         const panelBg = this.add.graphics();
         panelBg.fillStyle(0xFFFFFF, 0.98);
-        panelBg.fillRoundedRect(-470, -345, 940, 690, 24);
-        panelBg.lineStyle(4, 0x64748B, 0.8);
-        panelBg.strokeRoundedRect(-470, -345, 940, 690, 24);
+        panelBg.fillRoundedRect(-250, -455, 500, 910, 24);
+        panelBg.lineStyle(3, 0x64748B, 0.8);
+        panelBg.strokeRoundedRect(-250, -455, 500, 910, 24);
         this.mainContainer.add(panelBg);
 
         // Header Title
-        const header = this.add.text(0, -305, '⚙️ Dil ve Konuşma Terapisti Paneli', {
+        const header = this.add.text(0, -425, '⚙️ Terapist Kontrol Paneli', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '26px',
-            color: '#1E293B'
+            fontSize: '21px',
+            color: '#1E293B',
+            fontStyle: 'bold'
         }).setOrigin(0.5);
         this.mainContainer.add(header);
 
         // Subtitle / Privacy notice (per GDD: "Kişisel veri tutulmaz")
-        const sub = this.add.text(0, -275, 'Terapötik hedefleri yapılandırın. Kişisel veri tutulmaz, veriler sadece bu cihazdadır.', {
+        const sub = this.add.text(0, -398, 'Hedefleri yapılandırın. Veriler yalnızca bu cihazda tutulur.', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '14px',
+            fontSize: '12px',
             color: '#64748B'
         }).setOrigin(0.5);
         this.mainContainer.add(sub);
@@ -60,19 +61,20 @@ export class TherapistScene extends Scene {
         this.buildSessionSummarySection();
 
         // Close / Save Button at Bottom
-        const saveBtn = this.add.container(0, 305);
+        const saveBtn = this.add.container(0, 420);
         const sBg = this.add.graphics();
         sBg.fillStyle(0x52B788, 1);
-        sBg.fillRoundedRect(-140, -24, 280, 48, 24);
+        sBg.fillRoundedRect(-225, -24, 450, 48, 24);
         sBg.lineStyle(2, 0x2D6A4F, 1);
-        sBg.strokeRoundedRect(-140, -24, 280, 48, 24);
+        sBg.strokeRoundedRect(-225, -24, 450, 48, 24);
         const sTxt = this.add.text(0, 0, 'Kaydet ve Oyuna Dön ✓', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '20px',
-            color: '#FFFFFF'
+            fontSize: '18px',
+            color: '#FFFFFF',
+            fontStyle: 'bold'
         }).setOrigin(0.5);
         saveBtn.add([sBg, sTxt]);
-        saveBtn.setSize(280, 48);
+        saveBtn.setSize(450, 48);
         saveBtn.setInteractive({ useHandCursor: true });
         saveBtn.on('pointerdown', () => {
             soundManager.playTap();
@@ -83,19 +85,20 @@ export class TherapistScene extends Scene {
     }
 
     private buildProfileSection(): void {
-        const y = -240;
-        const lbl = this.add.text(-440, y, 'Aktif Profil:', {
+        const yLbl = -368;
+        const lbl = this.add.text(-230, yLbl, 'Aktif Profil:', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '17px',
-            color: '#334155'
+            fontSize: '15px',
+            color: '#334155',
+            fontStyle: 'bold'
         }).setOrigin(0, 0.5);
         this.mainContainer.add(lbl);
 
         const profiles = ['Profil 1', 'Profil 2', 'Profil 3'];
         profiles.forEach((pid, i) => {
-            const btn = this.add.container(-310 + i * 115, y);
-            this.drawChip(btn, pid, gameState.currentProfileId === pid, 105, 36);
-            btn.setSize(105, 36);
+            const btn = this.add.container(-140 + i * 140, -342);
+            this.drawChip(btn, pid, gameState.currentProfileId === pid, 115, 30);
+            btn.setSize(115, 30);
             btn.setInteractive({ useHandCursor: true });
             btn.on('pointerdown', () => {
                 soundManager.playTap();
@@ -108,21 +111,22 @@ export class TherapistScene extends Scene {
     }
 
     private buildTargetSoundsSection(): void {
-        const y = -180;
-        const lbl = this.add.text(-440, y, 'Hedef Sesler:', {
+        const yLbl = -312;
+        const lbl = this.add.text(-230, yLbl, 'Hedef Sesler:', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '17px',
-            color: '#334155'
+            fontSize: '15px',
+            color: '#334155',
+            fontStyle: 'bold'
         }).setOrigin(0, 0.5);
         this.mainContainer.add(lbl);
 
         const settings = gameState.getActiveProfile().settings;
 
         // "Tümü" option
-        const allBtn = this.add.container(-300, y);
+        const allBtn = this.add.container(-165, -284);
         const isAll = !settings.selectedTargetSounds || settings.selectedTargetSounds.length === 0;
-        this.drawChip(allBtn, 'Tüm Sesler', isAll, 95, 34);
-        allBtn.setSize(95, 34);
+        this.drawChip(allBtn, 'Tüm Sesler', isAll, 95, 28);
+        allBtn.setSize(95, 28);
         allBtn.setInteractive({ useHandCursor: true });
         allBtn.on('pointerdown', () => {
             soundManager.playTap();
@@ -132,13 +136,24 @@ export class TherapistScene extends Scene {
         this.mainContainer.add(allBtn);
         this.soundChips.set('all', allBtn);
 
-        // Sound options
+        // Sound options across 2 rows
+        const soundCoords = [
+            { x: -65, y: -284 },
+            { x: 10, y: -284 },
+            { x: 85, y: -284 },
+            { x: 160, y: -284 },
+            { x: -165, y: -248 },
+            { x: -90, y: -248 },
+            { x: -15, y: -248 },
+            { x: 60, y: -248 }
+        ];
+
         ALL_TARGET_SOUNDS.forEach((item, i) => {
-            const x = -190 + i * 70;
-            const btn = this.add.container(x, y);
+            const pos = soundCoords[i] || { x: 0, y: -248 };
+            const btn = this.add.container(pos.x, pos.y);
             const isSelected = settings.selectedTargetSounds.includes(item.sound);
-            this.drawChip(btn, `/${item.sound}/`, isSelected, 60, 34);
-            btn.setSize(60, 34);
+            this.drawChip(btn, `/${item.sound}/`, isSelected, 56, 28);
+            btn.setSize(56, 28);
             btn.setInteractive({ useHandCursor: true });
             btn.on('pointerdown', () => {
                 soundManager.playTap();
@@ -160,36 +175,39 @@ export class TherapistScene extends Scene {
         const isAll = settings.selectedTargetSounds.length === 0;
 
         const allBtn = this.soundChips.get('all');
-        if (allBtn) this.drawChip(allBtn, 'Tüm Sesler', isAll, 95, 34);
+        if (allBtn) this.drawChip(allBtn, 'Tüm Sesler', isAll, 95, 28);
 
         ALL_TARGET_SOUNDS.forEach(item => {
             const btn = this.soundChips.get(item.sound);
             if (btn) {
                 const isSelected = settings.selectedTargetSounds.includes(item.sound);
-                this.drawChip(btn, `/${item.sound}/`, isSelected, 60, 34);
+                this.drawChip(btn, `/${item.sound}/`, isSelected, 56, 28);
             }
         });
     }
 
     private buildAnimalsToggleSection(): void {
-        const y = -115;
-        const lbl = this.add.text(-440, y, 'Aktif Hayvanlar:', {
+        const yLbl = -215;
+        const lbl = this.add.text(-230, yLbl, 'Aktif Hayvanlar:', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '17px',
-            color: '#334155'
+            fontSize: '15px',
+            color: '#334155',
+            fontStyle: 'bold'
         }).setOrigin(0, 0.5);
         this.mainContainer.add(lbl);
 
         const settings = gameState.getActiveProfile().settings;
 
         ANIMALS.forEach((animal, i) => {
-            const x = -300 + (i % 4) * 190;
-            const ay = y + Math.floor(i / 4) * 44;
+            const col = i % 2;
+            const row = Math.floor(i / 2);
+            const x = col === 0 ? -115 : 115;
+            const ay = -186 + row * 34;
             const btn = this.add.container(x, ay);
             const isEnabled = settings.enabledAnimalIds.includes(animal.id);
 
-            this.drawChip(btn, `${animal.emoji} ${animal.name}`, isEnabled, 175, 36);
-            btn.setSize(175, 36);
+            this.drawChip(btn, `${animal.emoji} ${animal.name}`, isEnabled, 215, 28);
+            btn.setSize(215, 28);
             btn.setInteractive({ useHandCursor: true });
             btn.on('pointerdown', () => {
                 soundManager.playTap();
@@ -202,7 +220,7 @@ export class TherapistScene extends Scene {
                     settings.enabledAnimalIds.push(animal.id);
                 }
                 const updated = settings.enabledAnimalIds.includes(animal.id);
-                this.drawChip(btn, `${animal.emoji} ${animal.name}`, updated, 175, 36);
+                this.drawChip(btn, `${animal.emoji} ${animal.name}`, updated, 215, 28);
             });
             this.mainContainer.add(btn);
             this.animalChips.set(animal.id, btn);
@@ -210,28 +228,29 @@ export class TherapistScene extends Scene {
     }
 
     private buildGameSettingsSection(): void {
-        const y = -10;
         const settings = gameState.getActiveProfile().settings;
 
         // Tur Sayısı (Rounds: 3, 5, 8)
-        const lblRounds = this.add.text(-440, y, 'Tur Sayısı:', {
+        const yRounds = -45;
+        const lblRounds = this.add.text(-230, yRounds, 'Tur Sayısı:', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '17px',
-            color: '#334155'
+            fontSize: '14px',
+            color: '#334155',
+            fontStyle: 'bold'
         }).setOrigin(0, 0.5);
         this.mainContainer.add(lblRounds);
 
         [3, 5, 8].forEach((r, i) => {
-            const btn = this.add.container(-310 + i * 80, y);
-            this.drawChip(btn, `${r} Tur`, settings.roundsPerGame === r, 72, 34);
-            btn.setSize(72, 34);
+            const btn = this.add.container(-45 + i * 75, yRounds);
+            this.drawChip(btn, `${r} Tur`, settings.roundsPerGame === r, 68, 28);
+            btn.setSize(68, 28);
             btn.setInteractive({ useHandCursor: true });
             btn.on('pointerdown', () => {
                 soundManager.playTap();
                 settings.roundsPerGame = r;
                 [3, 5, 8].forEach(v => {
                     const b = this.roundsChips.get(v);
-                    if (b) this.drawChip(b, `${v} Tur`, v === r, 72, 34);
+                    if (b) this.drawChip(b, `${v} Tur`, v === r, 68, 28);
                 });
             });
             this.mainContainer.add(btn);
@@ -239,55 +258,58 @@ export class TherapistScene extends Scene {
         });
 
         // Kart Sayısı (Cards: 2, 3)
-        const lblCards = this.add.text(30, y, 'Kart Sayısı:', {
+        const yCards = -10;
+        const lblCards = this.add.text(-230, yCards, 'Kart Sayısı:', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '17px',
-            color: '#334155'
+            fontSize: '14px',
+            color: '#334155',
+            fontStyle: 'bold'
         }).setOrigin(0, 0.5);
         this.mainContainer.add(lblCards);
 
         [2, 3].forEach((c, i) => {
-            const btn = this.add.container(160 + i * 85, y);
-            this.drawChip(btn, `${c} Kart`, settings.cardCount === c, 76, 34);
-            btn.setSize(76, 34);
+            const btn = this.add.container(-45 + i * 80, yCards);
+            this.drawChip(btn, `${c} Kart`, settings.cardCount === c, 72, 28);
+            btn.setSize(72, 28);
             btn.setInteractive({ useHandCursor: true });
             btn.on('pointerdown', () => {
                 soundManager.playTap();
                 settings.cardCount = c;
                 [2, 3].forEach(v => {
                     const b = this.cardChips.get(v);
-                    if (b) this.drawChip(b, `${v} Kart`, v === c, 76, 34);
+                    if (b) this.drawChip(b, `${v} Kart`, v === c, 72, 28);
                 });
             });
             this.mainContainer.add(btn);
             this.cardChips.set(c, btn);
         });
 
-        // Konuşma Hızı (Speech rate) & Ses Açma/Kapama
-        const y2 = 45;
-        const lblSpeed = this.add.text(-440, y2, 'Konuşma Hızı:', {
+        // Konuşma Hızı
+        const ySpeed = 25;
+        const lblSpeed = this.add.text(-230, ySpeed, 'Konuşma Hızı:', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '17px',
-            color: '#334155'
+            fontSize: '14px',
+            color: '#334155',
+            fontStyle: 'bold'
         }).setOrigin(0, 0.5);
         this.mainContainer.add(lblSpeed);
 
         const speeds = [
-            { rate: 0.75, label: 'Yavaş (0.75x)' },
-            { rate: 1.0, label: 'Normal (1.0x)' }
+            { rate: 0.75, label: 'Yavaş' },
+            { rate: 1.0, label: 'Normal' }
         ];
         speeds.forEach((s, i) => {
-            const btn = this.add.container(-300 + i * 140, y2);
+            const btn = this.add.container(-45 + i * 80, ySpeed);
             const isSelected = Math.abs(settings.speechRate - s.rate) < 0.1;
-            this.drawChip(btn, s.label, isSelected, 130, 34);
-            btn.setSize(130, 34);
+            this.drawChip(btn, s.label, isSelected, 72, 28);
+            btn.setSize(72, 28);
             btn.setInteractive({ useHandCursor: true });
             btn.on('pointerdown', () => {
                 soundManager.playTap();
                 settings.speechRate = s.rate;
                 speeds.forEach(sp => {
                     const b = this.speedChips.get(sp.rate);
-                    if (b) this.drawChip(b, sp.label, sp.rate === s.rate, 130, 34);
+                    if (b) this.drawChip(b, sp.label, sp.rate === s.rate, 72, 28);
                 });
             });
             this.mainContainer.add(btn);
@@ -295,59 +317,70 @@ export class TherapistScene extends Scene {
         });
 
         // Ses Açık/Kapalı
-        this.audioToggleBtn = this.add.container(200, y2);
-        this.drawChip(this.audioToggleBtn, settings.soundEnabled ? 'Ses: Açık 🔊' : 'Ses: Kapalı 🔇', settings.soundEnabled, 140, 34);
-        this.audioToggleBtn.setSize(140, 34);
+        const yAudio = 60;
+        const lblAudio = this.add.text(-230, yAudio, 'Ses Durumu:', {
+            fontFamily: 'Fredoka, Quicksand, sans-serif',
+            fontSize: '14px',
+            color: '#334155',
+            fontStyle: 'bold'
+        }).setOrigin(0, 0.5);
+        this.mainContainer.add(lblAudio);
+
+        this.audioToggleBtn = this.add.container(20, yAudio);
+        this.drawChip(this.audioToggleBtn, settings.soundEnabled ? 'Ses: Açık 🔊' : 'Ses: Kapalı 🔇', settings.soundEnabled, 140, 28);
+        this.audioToggleBtn.setSize(140, 28);
         this.audioToggleBtn.setInteractive({ useHandCursor: true });
         this.audioToggleBtn.on('pointerdown', () => {
             soundManager.playTap();
             settings.soundEnabled = !settings.soundEnabled;
-            this.drawChip(this.audioToggleBtn, settings.soundEnabled ? 'Ses: Açık 🔊' : 'Ses: Kapalı 🔇', settings.soundEnabled, 140, 34);
+            this.drawChip(this.audioToggleBtn, settings.soundEnabled ? 'Ses: Açık 🔊' : 'Ses: Kapalı 🔇', settings.soundEnabled, 140, 28);
         });
         this.mainContainer.add(this.audioToggleBtn);
     }
 
     private buildSessionSummarySection(): void {
-        const y = 115;
+        const y = 95;
 
-        // Session Box (900x125)
+        // Session Box (460x175)
         const box = this.add.graphics();
         box.fillStyle(0xF8FAFC, 1);
-        box.fillRoundedRect(-450, y, 900, 125, 18);
+        box.fillRoundedRect(-230, y, 460, 175, 18);
         box.lineStyle(2, 0xE2E8F0, 1);
-        box.strokeRoundedRect(-450, y, 900, 125, 18);
+        box.strokeRoundedRect(-230, y, 460, 175, 18);
         this.mainContainer.add(box);
 
-        const title = this.add.text(-430, y + 20, '📊 Bugünkü Seans Özeti', {
+        const title = this.add.text(-215, y + 20, '📊 Bugünkü Seans Özeti', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '18px',
-            color: '#1E293B'
+            fontSize: '16px',
+            color: '#1E293B',
+            fontStyle: 'bold'
         }).setOrigin(0, 0.5);
         this.mainContainer.add(title);
 
-        this.summaryText = this.add.text(-430, y + 55, '', {
+        this.summaryText = this.add.text(-215, y + 42, '', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '16px',
+            fontSize: '13px',
             color: '#475569',
-            lineSpacing: 8
+            lineSpacing: 6
         });
         this.mainContainer.add(this.summaryText);
         this.updateSummaryText();
 
         // Reset Session Button
-        const resetBtn = this.add.container(330, y + 60);
+        const resetBtn = this.add.container(0, y + 140);
         const rBg = this.add.graphics();
         rBg.fillStyle(0xFEE2E2, 1);
-        rBg.fillRoundedRect(-90, -18, 180, 36, 18);
-        rBg.lineStyle(2, 0xFCA5A5, 1);
-        rBg.strokeRoundedRect(-90, -18, 180, 36, 18);
+        rBg.fillRoundedRect(-85, -16, 170, 32, 16);
+        rBg.lineStyle(1.5, 0xFCA5A5, 1);
+        rBg.strokeRoundedRect(-85, -16, 170, 32, 16);
         const rTxt = this.add.text(0, 0, 'Seansı Sıfırla ↻', {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '15px',
-            color: '#991B1B'
+            fontSize: '13px',
+            color: '#991B1B',
+            fontStyle: 'bold'
         }).setOrigin(0.5);
         resetBtn.add([rBg, rTxt]);
-        resetBtn.setSize(180, 36);
+        resetBtn.setSize(170, 32);
         resetBtn.setInteractive({ useHandCursor: true });
         resetBtn.on('pointerdown', () => {
             soundManager.playTap();
@@ -360,7 +393,7 @@ export class TherapistScene extends Scene {
     private updateSummaryText(): void {
         const stats = gameState.getActiveProfile().todayStats;
         this.summaryText.setText(
-            `Tarih: ${stats.date}   |   Doğru Tanıma: ${stats.correctCount}   |   Artikülasyon Tekrarı: ${stats.repeatCount}   |   Tamamlanan Oyun: ${stats.gamesCompleted}   |   Kazanılan Yıldız: ${stats.starsEarned} ⭐`
+            `Tarih: ${stats.date}\n• Doğru Tanıma: ${stats.correctCount} adet\n• Artikülasyon Tekrarı: ${stats.repeatCount} kez\n• Tamamlanan Oyun: ${stats.gamesCompleted} tur\n• Kazanılan Yıldız: ${stats.starsEarned} ⭐`
         );
     }
 
@@ -375,8 +408,9 @@ export class TherapistScene extends Scene {
 
         const text = this.add.text(0, 0, label, {
             fontFamily: 'Fredoka, Quicksand, sans-serif',
-            fontSize: '15px',
-            color: isSelected ? '#FFFFFF' : '#334155'
+            fontSize: '13px',
+            color: isSelected ? '#FFFFFF' : '#334155',
+            fontStyle: isSelected ? 'bold' : 'normal'
         }).setOrigin(0.5);
 
         container.add([bg, text]);
