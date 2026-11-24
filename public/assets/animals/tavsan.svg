@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#2b2d42" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+
+  <!-- Round Fluffy Cotton Tail -->
+  <circle cx="355" cy="390" r="28" fill="#FFFFFF" filter="url(#shadow)"/>
+  <circle cx="355" cy="390" r="22" fill="#FFF0F3"/>
+
+  <!-- Chubby Bunny Body -->
+  <ellipse cx="256" cy="365" rx="98" ry="92" fill="#FFFFFF" filter="url(#shadow)"/>
+  <!-- Pale Pink Tummy -->
+  <ellipse cx="256" cy="375" rx="60" ry="65" fill="#FFF0F3"/>
+
+  <!-- Big Back Feet -->
+  <ellipse cx="170" cy="442" rx="38" ry="20" fill="#FFFFFF" filter="url(#shadow)"/>
+  <ellipse cx="170" cy="442" rx="26" ry="12" fill="#FFCAD4"/>
+
+  <ellipse cx="342" cy="442" rx="38" ry="20" fill="#FFFFFF" filter="url(#shadow)"/>
+  <ellipse cx="342" cy="442" rx="26" ry="12" fill="#FFCAD4"/>
+
+  <!-- Cute Front Paws Tucked In -->
+  <ellipse cx="225" cy="340" rx="18" ry="25" transform="rotate(15 225 340)" fill="#FFFFFF" filter="url(#shadow)"/>
+  <ellipse cx="287" cy="340" rx="18" ry="25" transform="rotate(-15 287 340)" fill="#FFFFFF" filter="url(#shadow)"/>
+
+  <!-- Head -->
+  <!-- Tall Upright Ears with Pink Inner -->
+  <ellipse cx="210" cy="110" rx="28" ry="85" transform="rotate(-10 210 110)" fill="#FFFFFF" filter="url(#shadow)"/>
+  <ellipse cx="210" cy="110" rx="16" ry="65" transform="rotate(-10 210 110)" fill="#FFCAD4"/>
+
+  <ellipse cx="302" cy="110" rx="28" ry="85" transform="rotate(10 302 110)" fill="#FFFFFF" filter="url(#shadow)"/>
+  <ellipse cx="302" cy="110" rx="16" ry="65" transform="rotate(10 302 110)" fill="#FFCAD4"/>
+
+  <!-- Head Base -->
+  <circle cx="256" cy="225" r="88" fill="#FFFFFF" filter="url(#shadow)"/>
+
+  <!-- Big Dark Eyes -->
+  <ellipse cx="218" cy="210" rx="14" ry="18" fill="#2B2D42"/>
+  <ellipse cx="294" cy="210" rx="14" ry="18" fill="#2B2D42"/>
+  <!-- Glints -->
+  <circle cx="214" cy="205" r="6" fill="#FFFFFF"/>
+  <circle cx="222" cy="216" r="2.5" fill="#FFFFFF"/>
+  <circle cx="290" cy="205" r="6" fill="#FFFFFF"/>
+  <circle cx="298" cy="216" r="2.5" fill="#FFFFFF"/>
+
+  <!-- Rosy Cheeks -->
+  <ellipse cx="192" cy="245" rx="16" ry="10" fill="#FF758F" opacity="0.45"/>
+  <ellipse cx="320" cy="245" rx="16" ry="10" fill="#FF758F" opacity="0.45"/>
+
+  <!-- Cute Pink Nose -->
+  <polygon points="248,240 264,240 256,249" fill="#FF758F"/>
+
+  <!-- Cute Front Teeth -->
+  <rect x="250" y="258" width="12" height="10" rx="2" fill="#FFFFFF" stroke="#CCCCCC" stroke-width="1.5"/>
+
+  <!-- Mouth -->
+  <path d="M 256 249 C 256 257 246 261 240 257" stroke="#5A3E2B" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M 256 249 C 256 257 266 261 272 257" stroke="#5A3E2B" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+  <!-- Whiskers -->
+  <path d="M 185 240 L 135 235 M 185 248 L 130 252 M 185 256 L 140 266" stroke="#5A3E2B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 327 240 L 377 235 M 327 248 L 382 252 M 327 256 L 372 266" stroke="#5A3E2B" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

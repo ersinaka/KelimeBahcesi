@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#2b2d42" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+
+  <!-- Upturned Tail Feathers -->
+  <path d="M 330 330 C 390 320 425 285 435 250 C 415 245 390 270 375 295 C 395 270 410 230 385 225 C 365 245 345 285 330 320 Z" fill="#48CAE4" filter="url(#shadow)"/>
+
+  <!-- Webbed Orange Feet -->
+  <!-- Left Foot -->
+  <rect x="220" y="405" width="16" height="38" rx="8" fill="#FB8500"/>
+  <path d="M 200 450 C 220 435 235 440 250 450 Z" fill="#FB8500"/>
+  <!-- Right Foot -->
+  <rect x="278" y="405" width="16" height="38" rx="8" fill="#FB8500"/>
+  <path d="M 258 450 C 278 435 293 440 308 450 Z" fill="#FB8500"/>
+
+  <!-- Chubby Duck Body -->
+  <ellipse cx="256" cy="340" rx="105" ry="88" fill="#E0FBFC" filter="url(#shadow)"/>
+
+  <!-- Folded Wing -->
+  <path d="M 210 325 C 210 385 280 400 315 360 C 325 340 300 295 250 295 C 220 295 210 310 210 325 Z" fill="#48CAE4" opacity="0.45"/>
+  <path d="M 225 330 C 225 375 275 390 300 360 C 305 345 290 310 255 305 C 230 305 225 320 225 330 Z" fill="#0077B6" opacity="0.25"/>
+
+  <!-- White Neck Ring -->
+  <ellipse cx="256" cy="255" rx="42" ry="14" fill="#FFFFFF"/>
+
+  <!-- Emerald Mallard Head -->
+  <circle cx="256" cy="180" r="82" fill="#52B788" filter="url(#shadow)"/>
+
+  <!-- Broad Orange Bill -->
+  <path d="M 215 195 C 215 180 297 180 297 195 C 305 215 285 235 256 235 C 227 235 207 215 215 195 Z" fill="#FB8500" filter="url(#shadow)"/>
+  <!-- Bill Nostrils -->
+  <circle cx="246" cy="195" r="3" fill="#D90429"/>
+  <circle cx="266" cy="195" r="3" fill="#D90429"/>
+
+  <!-- Eyes -->
+  <ellipse cx="218" cy="160" rx="13" ry="17" fill="#2B2D42"/>
+  <ellipse cx="294" cy="160" rx="13" ry="17" fill="#2B2D42"/>
+  <!-- Glints -->
+  <circle cx="214" cy="155" r="5.5" fill="#FFFFFF"/>
+  <circle cx="222" cy="166" r="2.5" fill="#FFFFFF"/>
+  <circle cx="290" cy="155" r="5.5" fill="#FFFFFF"/>
+  <circle cx="298" cy="166" r="2.5" fill="#FFFFFF"/>
+
+  <!-- Cheeks -->
+  <ellipse cx="195" cy="190" rx="14" ry="9" fill="#FFE169" opacity="0.6"/>
+  <ellipse cx="317" cy="190" rx="14" ry="9" fill="#FFE169" opacity="0.6"/>
+</svg>

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#2b2d42" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+
+  <!-- Tail -->
+  <path d="M 330 380 C 400 370 430 300 410 240 C 400 210 370 215 375 235 C 385 270 365 320 310 340 Z" fill="#F4A261" filter="url(#shadow)"/>
+  <path d="M 408 245 C 418 220 385 215 375 235 C 385 255 400 255 408 245 Z" fill="#E76F51"/>
+
+  <!-- Body -->
+  <ellipse cx="256" cy="360" rx="95" ry="90" fill="#F4A261" filter="url(#shadow)"/>
+  <!-- Belly Cream Patch -->
+  <ellipse cx="256" cy="375" rx="60" ry="65" fill="#FFF3CD"/>
+
+  <!-- Back Legs/Paws -->
+  <ellipse cx="175" cy="430" rx="35" ry="22" fill="#E76F51"/>
+  <ellipse cx="337" cy="430" rx="35" ry="22" fill="#E76F51"/>
+
+  <!-- Front Legs/Paws -->
+  <rect x="210" y="360" width="34" height="85" rx="17" fill="#F4A261"/>
+  <ellipse cx="227" cy="442" rx="20" ry="14" fill="#FFF3CD"/>
+  <rect x="268" y="360" width="34" height="85" rx="17" fill="#F4A261"/>
+  <ellipse cx="285" cy="442" rx="20" ry="14" fill="#FFF3CD"/>
+
+  <!-- Head -->
+  <!-- Ears -->
+  <path d="M 175 190 L 140 85 L 220 145 Z" fill="#F4A261" filter="url(#shadow)"/>
+  <path d="M 175 180 L 152 105 L 210 148 Z" fill="#FFCAD4"/>
+
+  <path d="M 337 190 L 372 85 L 292 145 Z" fill="#F4A261" filter="url(#shadow)"/>
+  <path d="M 337 180 L 360 105 L 302 148 Z" fill="#FFCAD4"/>
+
+  <!-- Head Base -->
+  <circle cx="256" cy="210" r="95" fill="#F4A261" filter="url(#shadow)"/>
+
+  <!-- Cheeks Fluff -->
+  <ellipse cx="170" cy="235" rx="28" ry="20" fill="#F4A261"/>
+  <ellipse cx="342" cy="235" rx="28" ry="20" fill="#F4A261"/>
+
+  <!-- Eyes -->
+  <ellipse cx="215" cy="195" rx="14" ry="18" fill="#2B2D42"/>
+  <ellipse cx="297" cy="195" rx="14" ry="18" fill="#2B2D42"/>
+  <!-- Glints -->
+  <circle cx="211" cy="190" r="6" fill="#FFFFFF"/>
+  <circle cx="220" cy="202" r="2.5" fill="#FFFFFF"/>
+  <circle cx="293" cy="190" r="6" fill="#FFFFFF"/>
+  <circle cx="302" cy="202" r="2.5" fill="#FFFFFF"/>
+
+  <!-- Rosy Cheeks -->
+  <ellipse cx="195" cy="225" rx="16" ry="10" fill="#FF758F" opacity="0.45"/>
+  <ellipse cx="317" cy="225" rx="16" ry="10" fill="#FF758F" opacity="0.45"/>
+
+  <!-- Muzzle & Nose -->
+  <ellipse cx="256" cy="228" rx="28" ry="18" fill="#FFF3CD"/>
+  <polygon points="248,220 264,220 256,230" fill="#FF758F"/>
+
+  <!-- Mouth -->
+  <path d="M 256 230 C 256 238 245 244 238 240" stroke="#5A3E2B" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <path d="M 256 230 C 256 238 267 244 274 240" stroke="#5A3E2B" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Whiskers -->
+  <path d="M 180 220 L 120 215 M 180 230 L 115 235 M 180 240 L 125 250" stroke="#5A3E2B" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M 332 220 L 392 215 M 332 230 L 397 235 M 332 240 L 387 250" stroke="#5A3E2B" stroke-width="3.5" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#2b2d42" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+
+  <!-- Fluffy Cloud Tail -->
+  <circle cx="360" cy="340" r="26" fill="#FFFFFF" filter="url(#shadow)"/>
+  <circle cx="375" cy="330" r="20" fill="#F8F9FA"/>
+
+  <!-- Fluffy Fleece Body (Circles Cluster) -->
+  <g filter="url(#shadow)">
+    <!-- Base Body Core -->
+    <ellipse cx="256" cy="355" rx="110" ry="95" fill="#FFFFFF"/>
+    <!-- Scalloped Puffy Wool Circles -->
+    <circle cx="165" cy="320" r="44" fill="#FFFFFF"/>
+    <circle cx="205" cy="290" r="46" fill="#FFFFFF"/>
+    <circle cx="260" cy="285" r="48" fill="#FFFFFF"/>
+    <circle cx="315" cy="300" r="46" fill="#FFFFFF"/>
+    <circle cx="355" cy="345" r="44" fill="#FFFFFF"/>
+    <circle cx="340" cy="400" r="44" fill="#FFFFFF"/>
+    <circle cx="280" cy="430" r="46" fill="#FFFFFF"/>
+    <circle cx="220" cy="430" r="46" fill="#FFFFFF"/>
+    <circle cx="165" cy="390" r="44" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Four Cute Hooves / Legs -->
+  <rect x="195" y="405" width="26" height="48" rx="10" fill="#FCD5CE"/>
+  <rect x="195" y="440" width="26" height="16" rx="6" fill="#8D99AE"/>
+
+  <rect x="235" y="415" width="26" height="42" rx="10" fill="#FCD5CE"/>
+  <rect x="235" y="444" width="26" height="15" rx="6" fill="#8D99AE"/>
+
+  <rect x="275" y="415" width="26" height="42" rx="10" fill="#FCD5CE"/>
+  <rect x="275" y="444" width="26" height="15" rx="6" fill="#8D99AE"/>
+
+  <rect x="315" y="405" width="26" height="48" rx="10" fill="#FCD5CE"/>
+  <rect x="315" y="440" width="26" height="16" rx="6" fill="#8D99AE"/>
+
+  <!-- Head Base -->
+  <!-- Droopy Pink Ears -->
+  <ellipse cx="170" cy="210" rx="42" ry="20" transform="rotate(-25 170 210)" fill="#FCD5CE" filter="url(#shadow)"/>
+  <ellipse cx="170" cy="210" rx="30" ry="12" transform="rotate(-25 170 210)" fill="#FFCAD4"/>
+
+  <ellipse cx="342" cy="210" rx="42" ry="20" transform="rotate(25 342 210)" fill="#FCD5CE" filter="url(#shadow)"/>
+  <ellipse cx="342" cy="210" rx="30" ry="12" transform="rotate(25 342 210)" fill="#FFCAD4"/>
+
+  <!-- Peach Face -->
+  <ellipse cx="256" cy="215" rx="72" ry="78" fill="#FFE5D9" filter="url(#shadow)"/>
+
+  <!-- Wool Toupee on Head Top -->
+  <g filter="url(#shadow)">
+    <circle cx="225" cy="145" r="28" fill="#FFFFFF"/>
+    <circle cx="256" cy="135" r="32" fill="#FFFFFF"/>
+    <circle cx="287" cy="145" r="28" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Big Loving Eyes -->
+  <ellipse cx="225" cy="205" rx="13" ry="16" fill="#2B2D42"/>
+  <ellipse cx="287" cy="205" rx="13" ry="16" fill="#2B2D42"/>
+  <!-- Glints -->
+  <circle cx="221" cy="200" r="5.5" fill="#FFFFFF"/>
+  <circle cx="228" cy="211" r="2.5" fill="#FFFFFF"/>
+  <circle cx="283" cy="200" r="5.5" fill="#FFFFFF"/>
+  <circle cx="290" cy="211" r="2.5" fill="#FFFFFF"/>
+
+  <!-- Sweet Rosy Cheeks -->
+  <ellipse cx="205" cy="235" rx="16" ry="10" fill="#FF758F" opacity="0.45"/>
+  <ellipse cx="307" cy="235" rx="16" ry="10" fill="#FF758F" opacity="0.45"/>
+
+  <!-- Cute Nose and Smile -->
+  <ellipse cx="256" cy="235" rx="10" ry="7" fill="#F4ACB7"/>
+  <path d="M 256 242 C 256 250 248 254 244 250" stroke="#5A3E2B" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M 256 242 C 256 250 264 254 268 250" stroke="#5A3E2B" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>

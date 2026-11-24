@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#2b2d42" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+
+  <!-- Wagging Tail -->
+  <path d="M 330 360 C 400 340 430 260 415 220 C 405 195 380 205 385 225 C 395 255 370 310 315 330 Z" fill="#B08968" filter="url(#shadow)"/>
+  <!-- White tail tip -->
+  <circle cx="410" cy="220" r="18" fill="#FFF3CD"/>
+
+  <!-- Body -->
+  <ellipse cx="256" cy="355" rx="100" ry="92" fill="#D4A373" filter="url(#shadow)"/>
+  <!-- Cream Chest Patch -->
+  <ellipse cx="256" cy="370" rx="64" ry="68" fill="#FAEDCD"/>
+
+  <!-- Back Paws -->
+  <ellipse cx="170" cy="435" rx="36" ry="22" fill="#B08968"/>
+  <ellipse cx="342" cy="435" rx="36" ry="22" fill="#B08968"/>
+
+  <!-- Front Legs & Paws -->
+  <rect x="206" y="360" width="36" height="88" rx="18" fill="#D4A373"/>
+  <ellipse cx="224" cy="445" rx="22" ry="15" fill="#FAEDCD"/>
+  <rect x="270" y="360" width="36" height="88" rx="18" fill="#D4A373"/>
+  <ellipse cx="288" cy="445" rx="22" ry="15" fill="#FAEDCD"/>
+
+  <!-- Head -->
+  <!-- Floppy Ears -->
+  <ellipse cx="165" cy="210" rx="36" ry="72" transform="rotate(18 165 210)" fill="#B08968" filter="url(#shadow)"/>
+  <ellipse cx="347" cy="210" rx="36" ry="72" transform="rotate(-18 347 210)" fill="#B08968" filter="url(#shadow)"/>
+
+  <!-- Head Base -->
+  <circle cx="256" cy="205" r="95" fill="#D4A373" filter="url(#shadow)"/>
+
+  <!-- Snout / Muzzle -->
+  <ellipse cx="256" cy="235" rx="46" ry="34" fill="#FAEDCD"/>
+  <!-- Black Nose -->
+  <ellipse cx="256" cy="218" rx="16" ry="12" fill="#2B2D42"/>
+  <ellipse cx="252" cy="215" rx="5" ry="3.5" fill="#FFFFFF"/>
+
+  <!-- Mouth and Tongue -->
+  <path d="M 256 228 L 256 242 M 240 240 C 248 248 264 248 272 240" stroke="#5A3E2B" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <!-- Happy Pink Tongue -->
+  <path d="M 248 244 C 248 262 264 262 264 244 Z" fill="#FF758F"/>
+
+  <!-- Eyes -->
+  <ellipse cx="215" cy="185" rx="14" ry="18" fill="#2B2D42"/>
+  <ellipse cx="297" cy="185" rx="14" ry="18" fill="#2B2D42"/>
+  <!-- Glints -->
+  <circle cx="211" cy="180" r="6" fill="#FFFFFF"/>
+  <circle cx="220" cy="192" r="2.5" fill="#FFFFFF"/>
+  <circle cx="293" cy="180" r="6" fill="#FFFFFF"/>
+  <circle cx="302" cy="192" r="2.5" fill="#FFFFFF"/>
+
+  <!-- Eyebrow dots -->
+  <circle cx="215" cy="155" r="7" fill="#FAEDCD"/>
+  <circle cx="297" cy="155" r="7" fill="#FAEDCD"/>
+
+  <!-- Cheeks -->
+  <ellipse cx="190" cy="225" rx="16" ry="10" fill="#FF758F" opacity="0.4"/>
+  <ellipse cx="322" cy="225" rx="16" ry="10" fill="#FF758F" opacity="0.4"/>
+</svg>

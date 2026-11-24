@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#2b2d42" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+
+  <!-- Flowing Chocolate Tail -->
+  <path d="M 340 330 C 400 320 440 370 425 430 C 410 450 395 440 405 400 C 415 365 375 350 330 340 Z" fill="#5C3D2E" filter="url(#shadow)"/>
+
+  <!-- Horse Body -->
+  <ellipse cx="256" cy="345" rx="110" ry="92" fill="#B07D62" filter="url(#shadow)"/>
+
+  <!-- Four Legs with Hooves -->
+  <rect x="180" y="390" width="30" height="62" rx="14" fill="#B07D62"/>
+  <rect x="180" y="435" width="30" height="18" rx="7" fill="#6C757D"/>
+
+  <rect x="230" y="400" width="30" height="52" rx="14" fill="#B07D62"/>
+  <rect x="230" y="435" width="30" height="18" rx="7" fill="#6C757D"/>
+
+  <rect x="274" y="400" width="30" height="52" rx="14" fill="#B07D62"/>
+  <rect x="274" y="435" width="30" height="18" rx="7" fill="#6C757D"/>
+
+  <rect x="322" y="390" width="30" height="62" rx="14" fill="#B07D62"/>
+  <rect x="322" y="435" width="30" height="18" rx="7" fill="#6C757D"/>
+
+  <!-- Flowing Mane Behind Neck -->
+  <path d="M 230 110 C 210 130 200 180 215 220 C 215 220 225 180 245 150 Z" fill="#5C3D2E"/>
+  <path d="M 282 110 C 302 130 312 180 297 220 C 297 220 287 180 267 150 Z" fill="#5C3D2E"/>
+
+  <!-- Erect Ears -->
+  <path d="M 200 145 L 185 85 L 225 125 Z" fill="#B07D62" filter="url(#shadow)"/>
+  <path d="M 200 135 L 192 98 L 220 125 Z" fill="#FFCAD4"/>
+
+  <path d="M 312 145 L 327 85 L 287 125 Z" fill="#B07D62" filter="url(#shadow)"/>
+  <path d="M 312 135 L 320 98 L 292 125 Z" fill="#FFCAD4"/>
+
+  <!-- Head Base -->
+  <ellipse cx="256" cy="195" rx="78" ry="92" fill="#B07D62" filter="url(#shadow)"/>
+
+  <!-- Forehead Star Blaze -->
+  <polygon points="256,140 262,155 275,155 264,165 268,180 256,170 244,180 248,165 237,155 250,155" fill="#FFFFFF"/>
+
+  <!-- Soft Cream Muzzle -->
+  <ellipse cx="256" cy="245" rx="48" ry="32" fill="#EDE0D4" filter="url(#shadow)"/>
+  <!-- Nostrils -->
+  <ellipse cx="240" cy="242" rx="7" ry="10" fill="#5A3E2B"/>
+  <ellipse cx="272" cy="242" rx="7" ry="10" fill="#5A3E2B"/>
+  <!-- Gentle Smile -->
+  <path d="M 245 260 C 253 266 259 266 267 260" stroke="#5A3E2B" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+  <!-- Big Gentle Eyes -->
+  <ellipse cx="215" cy="180" rx="14" ry="18" fill="#2B2D42"/>
+  <ellipse cx="297" cy="180" rx="14" ry="18" fill="#2B2D42"/>
+  <!-- Glints -->
+  <circle cx="211" cy="175" r="6" fill="#FFFFFF"/>
+  <circle cx="219" cy="186" r="2.5" fill="#FFFFFF"/>
+  <circle cx="293" cy="175" r="6" fill="#FFFFFF"/>
+  <circle cx="301" cy="186" r="2.5" fill="#FFFFFF"/>
+
+  <!-- Rosy Cheeks -->
+  <ellipse cx="190" cy="215" rx="15" ry="10" fill="#FF758F" opacity="0.45"/>
+  <ellipse cx="322" cy="215" rx="15" ry="10" fill="#FF758F" opacity="0.45"/>
+</svg>

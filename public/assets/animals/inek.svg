@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#2b2d42" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+
+  <!-- Swishing Tail with Tuft -->
+  <path d="M 340 340 C 400 330 435 280 420 250 C 415 240 395 245 400 260 C 410 280 380 320 330 325 Z" fill="#FFFFFF"/>
+  <ellipse cx="420" cy="245" rx="15" ry="22" transform="rotate(25 420 245)" fill="#3D405B"/>
+
+  <!-- Cow Body -->
+  <ellipse cx="256" cy="350" rx="115" ry="95" fill="#FFFFFF" filter="url(#shadow)"/>
+
+  <!-- Soft Slate Patches on Body -->
+  <path d="M 180 310 C 210 300 240 330 220 370 C 200 400 160 380 165 340 Z" fill="#3D405B"/>
+  <path d="M 310 320 C 350 310 370 350 345 390 C 320 420 290 380 300 345 Z" fill="#3D405B"/>
+
+  <!-- Four Legs with Hooves -->
+  <rect x="180" y="395" width="32" height="58" rx="14" fill="#FFFFFF"/>
+  <rect x="180" y="435" width="32" height="18" rx="8" fill="#3D405B"/>
+
+  <rect x="228" y="405" width="32" height="48" rx="14" fill="#FFFFFF"/>
+  <rect x="228" y="435" width="32" height="18" rx="8" fill="#3D405B"/>
+
+  <rect x="274" y="405" width="32" height="48" rx="14" fill="#FFFFFF"/>
+  <rect x="274" y="435" width="32" height="18" rx="8" fill="#3D405B"/>
+
+  <rect x="320" y="395" width="32" height="58" rx="14" fill="#FFFFFF"/>
+  <rect x="320" y="435" width="32" height="18" rx="8" fill="#3D405B"/>
+
+  <!-- Head -->
+  <!-- Cute Golden Horns -->
+  <ellipse cx="195" cy="118" rx="12" ry="26" transform="rotate(-30 195 118)" fill="#FFE169" filter="url(#shadow)"/>
+  <ellipse cx="317" cy="118" rx="12" ry="26" transform="rotate(30 317 118)" fill="#FFE169" filter="url(#shadow)"/>
+
+  <!-- Droopy Ears -->
+  <ellipse cx="160" cy="175" rx="36" ry="22" transform="rotate(-25 160 175)" fill="#FFFFFF" filter="url(#shadow)"/>
+  <ellipse cx="160" cy="175" rx="26" ry="14" transform="rotate(-25 160 175)" fill="#FFCAD4"/>
+
+  <ellipse cx="352" cy="175" rx="36" ry="22" transform="rotate(25 352 175)" fill="#3D405B" filter="url(#shadow)"/>
+  <ellipse cx="352" cy="175" rx="26" ry="14" transform="rotate(25 352 175)" fill="#FFCAD4"/>
+
+  <!-- Head Base -->
+  <circle cx="256" cy="190" r="88" fill="#FFFFFF" filter="url(#shadow)"/>
+  <!-- Head Patch -->
+  <path d="M 285 115 C 330 130 345 180 320 215 C 295 210 275 160 285 115 Z" fill="#3D405B"/>
+
+  <!-- Big Pink Snout -->
+  <ellipse cx="256" cy="235" rx="60" ry="38" fill="#FFCAD4" filter="url(#shadow)"/>
+  <!-- Nostrils -->
+  <ellipse cx="236" cy="230" rx="9" ry="12" fill="#E07A5F"/>
+  <ellipse cx="276" cy="230" rx="9" ry="12" fill="#E07A5F"/>
+  <!-- Gentle Smile -->
+  <path d="M 242 250 C 252 258 260 258 270 250" stroke="#5A3E2B" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Eyes -->
+  <ellipse cx="218" cy="175" rx="14" ry="18" fill="#2B2D42"/>
+  <ellipse cx="294" cy="175" rx="14" ry="18" fill="#2B2D42"/>
+  <!-- Glints -->
+  <circle cx="214" cy="170" r="6" fill="#FFFFFF"/>
+  <circle cx="222" cy="181" r="2.5" fill="#FFFFFF"/>
+  <circle cx="290" cy="170" r="6" fill="#FFFFFF"/>
+  <circle cx="298" cy="181" r="2.5" fill="#FFFFFF"/>
+
+  <!-- Cheeks -->
+  <ellipse cx="190" cy="205" rx="15" ry="10" fill="#FF758F" opacity="0.45"/>
+  <ellipse cx="322" cy="205" rx="15" ry="10" fill="#FF758F" opacity="0.45"/>
+</svg>
